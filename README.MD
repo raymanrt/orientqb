@@ -149,38 +149,45 @@ Query q = new Query()
 assertEquals("SELECT * FROM Class WHERE f2 = 5 OR NOT(f3 < 0)", q.toString());
 ```
 
-Done
-----
-* [projection] items (functions, methods)
-* [projection] record attributes
-* [projection] variables (only those in SELECT: $parent, $current)
-* [projection] work with fields: http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/Document-Field-Part.html
-* [clause] logical operators (NOT)
-* nested queries
-* [clause] logical operators (IN, NOT IN, CONTAINS, ...)
-* [projection, clause] math operators (methods)
-* [PARALLEL]
-* [group by] ???
-* skip/limit (check if it's ok)
-* order by (ascending/descending)
-* [clause] conditional operators
-* [TIMEOUT] <Timeout> [<STRATEGY>]
-* [LOCK default|record]
-* [projection] $variabile
-* [projection] ? e :variable
-* [FETCHPLAN <FetchPlan>]
+Shortlist of implementations (and tests)
+----------------------------------------
+* [projection] all projection [functions](http://www.orientechnologies.com/docs/last/orientdb.wiki/SQL-Functions.html)
+* [projection] all projection [methods](http://www.orientechnologies.com/docs/last/orientdb.wiki/SQL-Methods.html)
+* [projection] [record attributes](http://www.orientechnologies.com/docs/last/orientdb.wiki/SQL-Where.html#record-attributes)
+* [projection] [variables](http://www.orientechnologies.com/docs/last/orientdb.wiki/SQL-Where.html#variables) (only those available in SELECT: $parent, $current)
+* [projection] named variables ($var)
+* [projection] work with [fields](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/Document-Field-Part.html)
+* [projection] nested queries
+
 * [from] custom targets
 
+* [clause] logical operators (NOT)
+* [clause] logical operators (IN, NOT IN, CONTAINS, ...)
+* [clause] conditional operators
+
+* [projection, clause] math operators (methods)
+* [projection, clause] parameters (?, :par)
+
+* PARALLEL
+* group by
+* skip/limit
+* order by (ascending/descending)
+* TIMEOUT and STRATEGY
+* LOCK (default and record)
+* FETCHPLAN
+* ORDER BY
+* LET
+
 To be completed after 0.1.0 release
-===================================
+-----------------------------------
 
 * DELETE
 * UPDATE
 * TRAVERSE
 * other commands
 
-Nice to have (but won't be required)
-====================================
+Nice to have (2.0.0)
+------------------------------------
 
 * pretty print
 * validation
