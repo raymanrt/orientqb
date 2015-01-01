@@ -19,7 +19,7 @@ It has a very small footprint (only Guava dependency) and it's independent from 
 Almost every function has a Unit Test, which you can use to learn how to use the library.
 
 Install and First Usage
-=======================
+-----------------------
 
 You can install orientqb from source with Maven:
 
@@ -53,7 +53,7 @@ assertEquals("SELECT field FROM Target", q.toString());
 ```
 
 Done
-====
+----
 * [projection] items (functions, methods)
 * [projection] record attributes
 * [projection] variables (only those in SELECT: $parent, $current)
@@ -74,13 +74,6 @@ Done
 * [FETCHPLAN <FetchPlan>]
 * [from] custom targets
 
-To be completed before 0.1.0 release
-====================================
-* [global] uniform and clean
-
-* unit testing
-* lightweight documentation (this document)
-
 To be completed after 0.1.0 release
 ===================================
 
@@ -94,4 +87,4 @@ Nice to have (but won't be required)
 
 * pretty print
 * validation
-* orientdb version
+* orientdb versions
