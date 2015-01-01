@@ -1,10 +1,6 @@
 package it.celi.orient.query;
 
-import com.google.common.collect.Lists;
 import it.celi.orient.util.Commons;
-import it.celi.orient.util.Joiner;
-
-import java.util.Collection;
 
 /**
  * Created by rayman on 31/12/14.

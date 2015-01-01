@@ -52,6 +52,103 @@ Query q = new Query()
 assertEquals("SELECT field FROM Target", q.toString());
 ```
 
+Projections
+-----------
+
+The best way to build projections which aren't simple fields is to work with `Projection` objects. The first reason you
+should use a `Projection` object is to assign an alias:
+
+
+```java
+// static import is strongly suggested to improve your code readability
+// import static it.celi.orient.query.Projection.projection;
+// [...]
+
+Query q = new Query()
+        .select(projection("field").as("f"))
+        .from("Target");
+assertEquals("SELECT field as f FROM Target", q.toString());
+```
+
+Starting with a `Projection` object you can apply methods or functions to build more complex projections:
+
+```java
+// static import is strongly suggested to improve your code readability
+// import static it.celi.orient.query.Projection.projection;
+// [...]
+
+Query q = new Query()
+        .select(projection("field").normalize().as("fNormalized"))
+        .from("Target");
+assertEquals("SELECT field.normalize() as fNormalized FROM Target", q.toString());
+```
+
+```java
+// static import is strongly suggested to improve your code readability
+// import static it.celi.orient.query.Projection.projection;
+// import static it.celi.orient.query.ProjectionFunction.max;
+// [...]
+
+Query q = new Query()
+        .select(max(projection("field")).as("fMax"))
+        .from("Target");
+assertEquals("SELECT max(field) as fMax FROM Target", q.toString());
+```
+
+Targets
+-------
+
+There is also a `Target` object, which provides some utility to some particular targets available in OrientDB:
+
+```java
+Query q = new Query()
+        .select("field")
+        .from(Target.target("#1:1", "#1:2"));
+assertEquals("SELECT field FROM [#1:1, #1:2]", q.toString());
+```
+
+Clauses
+-------
+
+To filter your results is typically required to populate the WHERE part of your Query. To help you in this task
+orientqb defines a specific object, called `Clause` which can be build with methods accessible from `Projection` object:
+
+```java
+Query q = new Query()
+        .select(Projection.ALL)
+        .from("Class")
+        .where(projection("f2").eq(5));
+assertEquals("SELECT * FROM Class WHERE f2 = 5", q.toString());
+```
+
+By default clauses are joined with AND boolean operator:
+
+```java
+Query q = new Query()
+        .select(Projection.ALL)
+        .from("Class")
+        .where(projection("f2").eq(5))
+        .where(projection("f3").lt(0));
+assertEquals("SELECT * FROM Class WHERE f2 = 5 AND f3 < 0", q.toString());
+```
+
+You can join two or more clauses with specific functions accessible from `Clause` object:
+
+```java
+// static import is strongly suggested to improve your code readability
+import static it.celi.orient.query.Clause.not;
+import static it.celi.orient.query.Clause.or;
+// [...]
+Query q = new Query()
+        .select(Projection.ALL)
+        .from("Class")
+        .where(or(
+                projection("f2").eq(5),
+                not(projection("f3").lt(0))
+        ));
+assertEquals("SELECT * FROM Class WHERE f2 = 5 OR NOT(f3 < 0)", q.toString());
+```
+
 Done
 ----
 * [projection] items (functions, methods)

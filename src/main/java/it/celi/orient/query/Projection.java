@@ -10,16 +10,14 @@ import it.celi.orient.util.Commons;
 import it.celi.orient.util.Patterns;
 
 import java.security.MessageDigest;
-import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.transform;
-import static it.celi.orient.util.Commons.cast;
 import static it.celi.orient.util.Commons.arrayToString;
+import static it.celi.orient.util.Commons.cast;
 import static it.celi.orient.util.Commons.singleQuote;
 import static it.celi.orient.util.Commons.singleQuoteFunction;
 import static it.celi.orient.util.Joiner.listJoiner;
@@ -279,19 +277,19 @@ public abstract class Projection implements Assignable {
 
 	public Projection plus(Number number) {
 		return new CompositeProjection("%s + %s", this, value(number));
-	};
+	}
 	public Projection minus(Number number) {
 		return new CompositeProjection("%s - %s", this, value(number));
-	};
+	}
 	public Projection times(Number number) {
 		return new CompositeProjection("%s * %s", this, value(number));
-	};
+	}
 	public Projection divide(Number number) {
 		return new CompositeProjection("%s / %s", this, value(number));
-	};
+	}
 	public Projection mod(int number) {
 		return new CompositeProjection("%s %% %s", this, value(number));
-	};
+	}
 
 	//// CLAUSES ////
 
