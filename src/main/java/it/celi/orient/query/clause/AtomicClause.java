@@ -9,7 +9,7 @@ import it.celi.orient.util.Commons;
 import static java.lang.String.format;
 
 /**
- * Created by rayman on 19/12/14.
+ * Created by Riccardo Tasso on 19/12/14.
  */
 public class AtomicClause extends Clause {
     private final Object firstOperand;

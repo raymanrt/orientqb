@@ -1,7 +1,7 @@
 package it.celi.orient.query;
 
 /**
- * Created by rayman on 30/12/14.
+ * Created by Riccardo Tasso on 30/12/14.
  */
 public class Parameter {
 

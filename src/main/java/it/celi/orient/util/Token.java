@@ -1,7 +1,7 @@
 package it.celi.orient.util;
 
 /**
- * Created by rayman on 17/12/14.
+ * Created by Riccardo Tasso on 17/12/14.
  */
 public class Token {
     public static final String SELECT = "SELECT";

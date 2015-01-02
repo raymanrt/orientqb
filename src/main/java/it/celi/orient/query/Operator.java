@@ -1,7 +1,7 @@
 package it.celi.orient.query;
 
 /**
- * Created by rayman on 19/12/14.
+ * Created by Riccardo Tasso on 19/12/14.
  */
 public enum Operator {
 

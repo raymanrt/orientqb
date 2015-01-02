@@ -12,7 +12,7 @@ import static com.google.common.collect.Collections2.transform;
 import static com.google.common.collect.Lists.newArrayList;
 
 /**
- * Created by rayman on 24/12/14.
+ * Created by Riccardo Tasso on 24/12/14.
  */
 public class Commons {
 

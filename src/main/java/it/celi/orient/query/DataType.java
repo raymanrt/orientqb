@@ -1,7 +1,7 @@
 package it.celi.orient.query;
 
 /**
- * Created by rayman on 28/12/14.
+ * Created by Riccardo Tasso on 28/12/14.
  */
 public enum DataType {
     BOOLEAN,

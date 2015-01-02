@@ -3,7 +3,7 @@ package it.celi.orient.util;
 import java.util.regex.Pattern;
 
 /**
- * Created by rayman on 28/12/14.
+ * Created by Riccardo Tasso on 28/12/14.
  */
 public class Patterns {
     public static final Pattern IDENTIFIER = Pattern.compile("([a-zA-Z_]+|[*])");

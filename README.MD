@@ -3,9 +3,9 @@ orientqb
 ========
 orientqb is a [builder](http://en.wikipedia.org/wiki/Builder_pattern) for OSQL query language written in Java.
 
-It provides a fluent interface to build objects which represent a Query and which can be parsed by
-[OrientDB](http://www.orientechnologies.com/orientdb/). It may be considered as an equivalent of [jOOQ](http://www.jooq.org/)
-for the OrientDB query language.
+It provides a fluent interface to build objects which represent a Query which can be parsed by
+[OrientDB](http://www.orientechnologies.com/orientdb/).
+It may be considered as an equivalent of [jOOQ](http://www.jooq.org/) for the OrientDB query language.
 
 orientqb has been thought to help developers in writing dynamically complex queries and aims to be simple but powerful.
 In the past years it helped me a lot to write OSQL without typos and without dealing to much with messy String concatenations.
@@ -14,9 +14,16 @@ Then I decided to share it with the community.
 For now it only supports SELECT statements, as defined in the last
 [documentation](http://www.orientechnologies.com/docs/last/).
 
-It has a very small footprint (only Guava dependency) and it's independent from OrientDB libraries.
+It has a very small footprint (only [guava](https://code.google.com/p/guava-libraries/) dependency) and
+it's independent from OrientDB libraries.
 
-Almost every function has a Unit Test, which you can use to learn how to use the library.
+Almost every function has a **Unit Test**, which you can use to learn how to use the library.
+
+orientqb is thought to build queries incrementally, therefore it's easy adding parts to a given query
+but typically it is not possible to remove them.
+
+**[WARNING]** orientqb doesn't have any knowledge of the schema of your data, hence it can build only syntactically valid queries.
+Writing semantically valid queries still depends on you.
 
 Install and First Usage
 -----------------------
@@ -70,7 +77,10 @@ Query q = new Query()
 assertEquals("SELECT field as f FROM Target", q.toString());
 ```
 
-Starting with a `Projection` object you can apply methods or functions to build more complex projections:
+Starting with a `Projection` object you can apply
+[methods](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/SQL-Methods.html#bundled-methods) or
+[functions](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/SQL-Functions.html#bundled-functions)
+to build more complex projections:
 
 ```java
 // static import is strongly suggested to improve your code readability
@@ -94,6 +104,48 @@ Query q = new Query()
         .from("Target");
 assertEquals("SELECT max(field) as fMax FROM Target", q.toString());
 ```
+
+All the methods and functions available in OrientDB have their counter part in orientqb with some exceptions for those
+methods which can't have a valid Java identifier.
+
+**Base expressions**: `dot`, `index`, `indexRange`, `field` methods:
+
+```java
+// static import is strongly suggested to improve your code readability
+// import static it.celi.orient.query.Projection.projection;
+// [...]
+Query q = new Query()
+        .select(
+                projection("field")
+                .dot(projection("subField"))
+                .index(0)
+        )
+        .from("Class");
+assertEquals("SELECT field.subField[0] FROM Class", q.toString());
+```
+
+**Mathematical operators**: `plus`, `minus`, `times`, `divide`, `mod` methods:
+
+```java
+// static import is strongly suggested to improve your code readability
+// import static it.celi.orient.query.Projection.projection;
+// [...]
+Query q = new Query()
+        .select(
+            projection("field").times(2).plus(1)
+        )
+        .from("Class");
+assertEquals("SELECT field * 2 + 1 FROM Class", q.toString());
+```
+
+orientqb features for `Projection` (SELECT part):
+* all [functions](http://www.orientechnologies.com/docs/last/orientdb.wiki/SQL-Functions.html)
+* all [methods](http://www.orientechnologies.com/docs/last/orientdb.wiki/SQL-Methods.html)
+* all [record attributes](http://www.orientechnologies.com/docs/last/orientdb.wiki/sql-where.html#record-attributes)
+* all [variables](http://www.orientechnologies.com/docs/last/orientdb.wiki/SQL-Where.html#variables) (only those available in SELECT: $parent, $current)
+* named variables ($var)
+* work with [fields](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/Document-Field-Part.html)
+* nested queries
 
 Targets
 -------
@@ -132,12 +184,12 @@ Query q = new Query()
 assertEquals("SELECT * FROM Class WHERE f2 = 5 AND f3 < 0", q.toString());
 ```
 
-You can join two or more clauses with specific functions accessible from `Clause` object:
+You can join two or more clauses with specific functions (`and`, `or`, `not`) accessible from `Clause` object:
 
 ```java
 // static import is strongly suggested to improve your code readability
-import static it.celi.orient.query.Clause.not;
-import static it.celi.orient.query.Clause.or;
+// import static it.celi.orient.query.Clause.not;
+// import static it.celi.orient.query.Clause.or;
 // [...]
 Query q = new Query()
         .select(Projection.ALL)
@@ -149,46 +201,58 @@ Query q = new Query()
 assertEquals("SELECT * FROM Class WHERE f2 = 5 OR NOT(f3 < 0)", q.toString());
 ```
 
-Shortlist of implementations (and tests)
-----------------------------------------
-* [projection] all projection [functions](http://www.orientechnologies.com/docs/last/orientdb.wiki/SQL-Functions.html)
-* [projection] all projection [methods](http://www.orientechnologies.com/docs/last/orientdb.wiki/SQL-Methods.html)
-* [projection] [record attributes](http://www.orientechnologies.com/docs/last/orientdb.wiki/SQL-Where.html#record-attributes)
-* [projection] [variables](http://www.orientechnologies.com/docs/last/orientdb.wiki/SQL-Where.html#variables) (only those available in SELECT: $parent, $current)
-* [projection] named variables ($var)
-* [projection] work with [fields](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/Document-Field-Part.html)
-* [projection] nested queries
+You can also declare parameters or named parameters:
 
-* [from] custom targets
+```java
+Query q = new Query()
+        .select(Projection.ALL)
+        .from("Class")
+        .where(projection("f").eq(Parameter.PARAMETER));
+assertEquals("SELECT * FROM Class WHERE f = ?", q.toString());
+```
 
-* [clause] logical operators (NOT)
-* [clause] logical operators (IN, NOT IN, CONTAINS, ...)
-* [clause] conditional operators
+```java
+Query q = new Query()
+        .select(Projection.ALL)
+        .from("Class")
+        .where(projection("f").eq(Parameter.parameter("fParameter")));
+assertEquals("SELECT * FROM Class WHERE f = :fParameter", q.toString());
+```
 
-* [projection, clause] math operators (methods)
-* [projection, clause] parameters (?, :par)
+All the [conditional operators](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/SQL-Where.html#conditional-operators)
+are supported. Please **always** remember that orientqb hasn't any knowledge of the schema of your data and you should
+care of using valid operators for your field.
 
+Other Query methods
+-------------------
+
+orientqb implements `Query` methods for:
+* GROUP BY
+* ORDER BY (ASC or DESC)
+* SKIP / LIMIT
+* FETCHPLAN (and fetching strategies)
+* TIMEOUT (and timeout strategies)
+* LOCK (and locking strategies)
 * PARALLEL
-* group by
-* skip/limit
-* order by (ascending/descending)
-* TIMEOUT and STRATEGY
-* LOCK (default and record)
-* FETCHPLAN
-* ORDER BY
-* LET
 
 To be completed after 0.1.0 release
 -----------------------------------
 
-* DELETE
-* UPDATE
-* TRAVERSE
-* other commands
+In my spare time I'd like to add the following construct:
 
-Nice to have (2.0.0)
-------------------------------------
+* DELETE and UPDATE
+* TRAVERSE
+* other OSQL commands
+
+Obviously some of my time will be spent in bug fixing, code cleaning and API optimizations, since the aim of the project
+will always be to make life easier in writing OSQL queries. **Any contribution (pull requests) in this direction will
+always be appreciated** but new features will be accepted only if tested.
+
+Nice to have (if a version 2.0.0 will be released)
+--------------------------------------------------
+
+There are a bunch of features which are not considered as a priority by now, but should be considered as valid future works:
 
 * pretty print
-* validation
-* orientdb versions
+* query validation (wrt to the schema? declaring field types during query building?)
+* orientdb versions (alignment of orientqb to orientdb versions)

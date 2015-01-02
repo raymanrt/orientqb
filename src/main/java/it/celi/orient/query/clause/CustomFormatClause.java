@@ -6,7 +6,7 @@ import it.celi.orient.query.Operator;
 import static java.lang.String.format;
 
 /**
- * Created by rayman on 28/12/14.
+ * Created by Riccardo Tasso on 28/12/14.
  */
 public class CustomFormatClause extends Clause {
 

@@ -8,7 +8,7 @@ import it.celi.orient.util.Joiner;
 import static it.celi.orient.query.Operator.NOT;
 
 /**
- * Created by rayman on 19/12/14.
+ * Created by Riccardo Tasso on 19/12/14.
  */
 public class Clause {
 

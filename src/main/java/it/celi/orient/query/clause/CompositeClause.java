@@ -10,7 +10,7 @@ import static com.google.common.collect.Lists.transform;
 import static it.celi.orient.util.Commons.whereToStringFunction;
 
 /**
- * Created by rayman on 19/12/14.
+ * Created by Riccardo Tasso on 19/12/14.
  */
 public class CompositeClause extends Clause {
     private final Joiner joiner;

@@ -3,7 +3,7 @@ package it.celi.orient.query.projection;
 import it.celi.orient.query.Projection;
 
 /**
- * Created by rayman on 21/12/14.
+ * Created by Riccardo Tasso on 21/12/14.
  */
 public class CompositeProjection extends Projection {
     private Projection[] projections;

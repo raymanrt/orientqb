@@ -1,7 +1,7 @@
 package it.celi.orient.query;
 
 /**
- * Created by rayman on 29/12/14.
+ * Created by Riccardo Tasso on 29/12/14.
  */
 public class Ordering {
     private final Projection projection;

@@ -69,6 +69,28 @@ public class TutorialTest {
 	}
 
 	@Test
+	public void dotIndexTest() {
+		Query q = new Query()
+				.select(
+						projection("field")
+								.dot(projection("subField"))
+								.index(0)
+				)
+				.from("Class");
+		assertEquals("SELECT field.subField[0] FROM Class", q.toString());
+	}
+
+	@Test
+	public void mathTest() {
+		Query q = new Query()
+				.select(
+					projection("field").times(2).plus(1)
+				)
+				.from("Class");
+		assertEquals("SELECT field * 2 + 1 FROM Class", q.toString());
+	}
+
+	@Test
 	public void targetTest() {
 		Query q = new Query()
 				.select("field")
@@ -105,5 +127,23 @@ public class TutorialTest {
 						not(projection("f3").lt(0))
 				));
 		assertEquals("SELECT * FROM Class WHERE f2 = 5 OR NOT(f3 < 0)", q.toString());
+	}
+
+	@Test
+	public void parameterTest() {
+		Query q = new Query()
+				.select(Projection.ALL)
+				.from("Class")
+				.where(projection("f").eq(Parameter.PARAMETER));
+		assertEquals("SELECT * FROM Class WHERE f = ?", q.toString());
+	}
+
+	@Test
+	public void namedParameterTest() {
+		Query q = new Query()
+				.select(Projection.ALL)
+				.from("Class")
+				.where(projection("f").eq(Parameter.parameter("fParameter")));
+		assertEquals("SELECT * FROM Class WHERE f = :fParameter", q.toString());
 	}
 }

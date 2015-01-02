@@ -3,7 +3,7 @@ package it.celi.orient.query;
 import it.celi.orient.util.Commons;
 
 /**
- * Created by rayman on 31/12/14.
+ * Created by Riccardo Tasso on 31/12/14.
  */
 public class Target {
 
