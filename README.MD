@@ -1,6 +1,7 @@
 
-*orientqb*
+orientqb
 ========
+
 *orientqb* is a [builder](http://en.wikipedia.org/wiki/Builder_pattern) for OSQL query language written in Java.
 
 It provides a fluent interface to build objects which represent a Query whose String representation can be parsed by
@@ -24,6 +25,9 @@ but typically it is not possible to remove them.
 
 **[WARNING]** *orientqb* doesn't have any knowledge of the schema of your data, hence it can build only syntactically valid queries.
 Writing semantically valid queries still depends on you.
+
+* auto-gen TOC:
+{:toc}
 
 Install and First Usage
 -----------------------
