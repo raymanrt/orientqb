@@ -1,34 +1,34 @@
 
-orientqb
+*orientqb*
 ========
-orientqb is a [builder](http://en.wikipedia.org/wiki/Builder_pattern) for OSQL query language written in Java.
+*orientqb* is a [builder](http://en.wikipedia.org/wiki/Builder_pattern) for OSQL query language written in Java.
 
-It provides a fluent interface to build objects which represent a Query which can be parsed by
+It provides a fluent interface to build objects which represent a Query whose String representation can be parsed by
 [OrientDB](http://www.orientechnologies.com/orientdb/).
 It may be considered as an equivalent of [jOOQ](http://www.jooq.org/) for the OrientDB query language.
 
-orientqb has been thought to help developers in writing dynamically complex queries and aims to be simple but powerful.
-In the past years it helped me a lot to write OSQL without typos and without dealing to much with messy String concatenations.
+*orientqb* has been thought to help developers in writing complex queries dynamically and aims to be simple but powerful.
+In the past years it helped me a lot in writing OSQL without typos and without dealing to much with ugly String concatenations.
 Then I decided to share it with the community.
 
 For now it only supports SELECT statements, as defined in the last
 [documentation](http://www.orientechnologies.com/docs/last/).
 
-It has a very small footprint (only [guava](https://code.google.com/p/guava-libraries/) dependency) and
+It has a very small footprint (the only external dependency is [guava](https://code.google.com/p/guava-libraries/) 18.0) and
 it's independent from OrientDB libraries.
 
 Almost every function has a **Unit Test**, which you can use to learn how to use the library.
 
-orientqb is thought to build queries incrementally, therefore it's easy adding parts to a given query
+*orientqb* is thought to build queries incrementally, therefore it's easy adding parts to a given query
 but typically it is not possible to remove them.
 
-**[WARNING]** orientqb doesn't have any knowledge of the schema of your data, hence it can build only syntactically valid queries.
+**[WARNING]** *orientqb* doesn't have any knowledge of the schema of your data, hence it can build only syntactically valid queries.
 Writing semantically valid queries still depends on you.
 
 Install and First Usage
 -----------------------
 
-You can install orientqb from source with Maven:
+You can install *orientqb* from source with Maven:
 
 ```
 mvn clean install
@@ -105,7 +105,7 @@ Query q = new Query()
 assertEquals("SELECT max(field) as fMax FROM Target", q.toString());
 ```
 
-All the methods and functions available in OrientDB have their counter part in orientqb with some exceptions for those
+All the methods and functions available in OrientDB have their counter part in *orientqb* with some exceptions for those
 methods which can't have a valid Java identifier.
 
 **Base expressions**: `dot`, `index`, `indexRange`, `field` methods:
@@ -138,7 +138,7 @@ Query q = new Query()
 assertEquals("SELECT field * 2 + 1 FROM Class", q.toString());
 ```
 
-orientqb features for `Projection` (SELECT part):
+*orientqb* features for `Projection` (SELECT part):
 * all [functions](http://www.orientechnologies.com/docs/last/orientdb.wiki/SQL-Functions.html)
 * all [methods](http://www.orientechnologies.com/docs/last/orientdb.wiki/SQL-Methods.html)
 * all [record attributes](http://www.orientechnologies.com/docs/last/orientdb.wiki/sql-where.html#record-attributes)
@@ -163,7 +163,7 @@ Clauses
 -------
 
 To filter your results is typically required to populate the WHERE part of your Query. To help you in this task
-orientqb defines a specific object, called `Clause` which can be build with methods accessible from `Projection` object:
+*orientqb* defines a specific object, called `Clause` which can be build with methods accessible from `Projection` object:
 
 ```java
 Query q = new Query()
@@ -220,13 +220,13 @@ assertEquals("SELECT * FROM Class WHERE f = :fParameter", q.toString());
 ```
 
 All the [conditional operators](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/SQL-Where.html#conditional-operators)
-are supported. Please **always** remember that orientqb hasn't any knowledge of the schema of your data and you should
+are supported. Please **always** remember that *orientqb* hasn't any knowledge of the schema of your data and you should
 care of using valid operators for your field.
 
 Other Query methods
 -------------------
 
-orientqb implements `Query` methods for:
+*orientqb* implements `Query` methods for:
 * GROUP BY
 * ORDER BY (ASC or DESC)
 * SKIP / LIMIT
@@ -248,11 +248,11 @@ Obviously some of my time will be spent in bug fixing, code cleaning and API opt
 will always be to make life easier in writing OSQL queries. **Any contribution (pull requests) in this direction will
 always be appreciated** but new features will be accepted only if tested.
 
-Nice to have (if a version 2.0.0 will be released)
+Nice to have (if a version 1.0.0 will be released)
 --------------------------------------------------
 
 There are a bunch of features which are not considered as a priority by now, but should be considered as valid future works:
 
 * pretty print
 * query validation (wrt to the schema? declaring field types during query building?)
-* orientdb versions (alignment of orientqb to orientdb versions)
+* orientdb versions (alignment of *orientqb* to orientdb versions)
