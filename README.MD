@@ -26,9 +26,6 @@ but typically it is not possible to remove them.
 **[WARNING]** *orientqb* doesn't have any knowledge of the schema of your data, hence it can build only syntactically valid queries.
 Writing semantically valid queries still depends on you.
 
-* auto-gen TOC:
-{:toc}
-
 Install and First Usage
 -----------------------
 
