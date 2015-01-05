@@ -69,7 +69,7 @@ should use a `Projection` object is to assign an alias:
 
 ```java
 // static import is strongly suggested to improve your code readability
-// import static it.celi.orient.query.Projection.projection;
+// import static Projection.projection;
 // [...]
 
 Query q = new Query()
@@ -85,7 +85,7 @@ to build more complex projections:
 
 ```java
 // static import is strongly suggested to improve your code readability
-// import static it.celi.orient.query.Projection.projection;
+// import static Projection.projection;
 // [...]
 
 Query q = new Query()
@@ -96,8 +96,8 @@ assertEquals("SELECT field.normalize() as fNormalized FROM Target", q.toString()
 
 ```java
 // static import is strongly suggested to improve your code readability
-// import static it.celi.orient.query.Projection.projection;
-// import static it.celi.orient.query.ProjectionFunction.max;
+// import static Projection.projection;
+// import static ProjectionFunction.max;
 // [...]
 
 Query q = new Query()
@@ -113,7 +113,7 @@ methods which can't have a valid Java identifier.
 
 ```java
 // static import is strongly suggested to improve your code readability
-// import static it.celi.orient.query.Projection.projection;
+// import static Projection.projection;
 // [...]
 Query q = new Query()
         .select(
@@ -129,7 +129,7 @@ assertEquals("SELECT field.subField[0] FROM Class", q.toString());
 
 ```java
 // static import is strongly suggested to improve your code readability
-// import static it.celi.orient.query.Projection.projection;
+// import static Projection.projection;
 // [...]
 Query q = new Query()
         .select(
@@ -189,8 +189,8 @@ You can join two or more clauses with specific functions (`and`, `or`, `not`) ac
 
 ```java
 // static import is strongly suggested to improve your code readability
-// import static it.celi.orient.query.Clause.not;
-// import static it.celi.orient.query.Clause.or;
+// import static Clause.not;
+// import static Clause.or;
 // [...]
 Query q = new Query()
         .select(Projection.ALL)
@@ -238,6 +238,9 @@ Other Query methods
 
 To be completed after 0.1.0 release
 -----------------------------------
+
+Issues found on common day usage:
+* make available clauses like: `? <= field` (`Parameter extends Projection`?)
 
 In my spare time I'd like to add the following construct:
 
