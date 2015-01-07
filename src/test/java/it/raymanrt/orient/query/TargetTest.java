@@ -44,14 +44,6 @@ public class TargetTest {
 		assertEquals("indexvaluesdesc:myIndex", t.toString());
 	}
 
-
-	/*
-	SELECT (
-		SELECT city, SUM(salary) AS salary
-		FROM Employee
-		GROUP BY city
-	) WHERE salary > 1000
-	 */
 	@Test
 	public void nestedTest() {
 		Query q = new Query();

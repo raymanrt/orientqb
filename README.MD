@@ -160,6 +160,27 @@ Query q = new Query()
 assertEquals("SELECT field FROM [#1:1, #1:2]", q.toString());
 ```
 
+Target can also be a nested query:
+
+```java
+Query q = new Query();
+
+Query nested = new Query()
+        .select("city")
+        .select(sum(projection("salary")).as("salary"))
+        .from("Employee")
+        .groupBy(projection("city"))
+        ;
+
+Target t = Target.nested(nested);
+
+q.from(t)
+.where(projection("salary").gt(1000));
+assertEquals("SELECT FROM (SELECT city, sum(salary) as salary FROM Employee GROUP BY city) WHERE salary > 1000", q.toString());
+```
+
+
+
 Clauses
 -------
 
@@ -238,9 +259,6 @@ Other Query methods
 
 To be completed after 0.1.0 release
 -----------------------------------
-
-Issues found on common day usage:
-* target may be a query (http://www.orientechnologies.com/docs/last/orientdb.wiki/SQL.html#having)
 
 In my spare time I'd like to add the following construct:
 
