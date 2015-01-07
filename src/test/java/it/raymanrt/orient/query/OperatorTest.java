@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import static com.google.common.collect.Lists.newArrayList;
 import static it.raymanrt.orient.query.Clause.clause;
 import static it.raymanrt.orient.query.Projection.projection;
+import static it.raymanrt.orient.query.Projection.value;
 import static org.junit.Assert.assertEquals;
 
 public class OperatorTest {
@@ -118,6 +119,15 @@ public class OperatorTest {
 		assertEquals("x IN out('friends')", c.toString());
 		c = projection("x").in(ProjectionFunction.out("friends"));
 		assertEquals("x IN out('friends')", c.toString());
+	}
+
+	@Test
+	public void containsTest() {
+		Clause c = projection("x").contains(value("name"));
+		assertEquals("x CONTAINS 'name'", c.toString());
+
+		c = projection("x").contains(Variable.rid());
+		assertEquals("x CONTAINS @rid", c.toString());
 	}
 
 	@Test

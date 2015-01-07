@@ -16,6 +16,7 @@ public enum Operator {
 
     INSTANCEOF("%s INSTANCEOF %s"),
     IN("%s IN %s"),
+    CONTAINS("%s CONTAINS %s"),
     CONTAINS_KEY("%s CONTAINSKEY %s"),
     CONTAINS_VALUE("%s CONTAINSVALUE %s"),
     CONTAINS_TEXT("%s CONTAINSTEXT %s"),
@@ -30,7 +31,6 @@ public enum Operator {
 
     // binary
     BETWEEN("%s BETWEEN %s AND %s"),
-    // TODO: CONTAINS("%s CONTAINS %s"),
     // TODO: CONTAINS_ALL("%s CONTAINSALL (%s = %s)"), // TODO: others operators supported?
 
 

@@ -337,6 +337,10 @@ public abstract class Projection implements Assignable {
 		return new AtomicClause(this, Operator.IN, value);
 	}
 
+	public Clause contains(Projection projection) {
+		return new AtomicClause(this, Operator.CONTAINS, projection);
+	}
+
 	public Clause containsKey(String key) {
 		return new AtomicClause(this, Operator.CONTAINS_KEY, key);
 	}
