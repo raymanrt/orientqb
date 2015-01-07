@@ -9,6 +9,7 @@ import static it.raymanrt.orient.query.Clause.clause;
 import static it.raymanrt.orient.query.Projection.list;
 import static it.raymanrt.orient.query.Projection.projection;
 import static it.raymanrt.orient.query.Projection.value;
+import static it.raymanrt.orient.query.Parameter.parameter;
 import static org.junit.Assert.assertEquals;
 
 public class OperatorTest {
@@ -148,8 +149,11 @@ public class OperatorTest {
 
 	@Test
 	public void containsTextTest() {
-		Clause c = projection("x").containsText("txt");
+		Clause c = projection("x").containsText(value("txt"));
 		assertEquals("x CONTAINSTEXT 'txt'", c.toString());
+
+		c = projection("x").containsText(parameter("txt"));
+		assertEquals("x CONTAINSTEXT :txt", c.toString());
 	}
 
 	@Test

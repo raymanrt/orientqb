@@ -401,8 +401,8 @@ public abstract class Projection implements Assignable {
 		return new AtomicClause(this, Operator.CONTAINS_VALUE, value);
 	}
 
-	public Clause containsText(String text) {
-		return new AtomicClause(this, Operator.CONTAINS_TEXT, text);
+	public Clause containsText(Projection projection) {
+		return new AtomicClause(this, Operator.CONTAINS_TEXT, projection);
 	}
 
 	public Clause matches(Pattern pattern) {

@@ -240,7 +240,7 @@ To be completed after 0.1.0 release
 -----------------------------------
 
 Issues found on common day usage:
-* make available clauses like: `? <= field` (`Parameter extends Projection`?)
+* target may be a query (http://www.orientechnologies.com/docs/last/orientdb.wiki/SQL.html#having)
 
 In my spare time I'd like to add the following construct:
 
