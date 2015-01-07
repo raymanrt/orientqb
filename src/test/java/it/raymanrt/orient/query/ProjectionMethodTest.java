@@ -6,6 +6,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import static it.raymanrt.orient.query.Projection.projection;
+import static it.raymanrt.orient.query.ProjectionFunction.both;
+import static it.raymanrt.orient.query.ProjectionFunction.bothE;
 import static it.raymanrt.orient.query.ProjectionFunction.in;
 import static it.raymanrt.orient.query.ProjectionFunction.max;
 import static it.raymanrt.orient.query.ProjectionFunction.out;
@@ -133,6 +135,36 @@ public class ProjectionMethodTest {
 	}
 
 	@Test
+	public void bothTest() {
+		String label1 = "label1";
+		String label2 = "label2";
+
+		Projection p = both(label1).both();
+		assertEquals("both('label1').both()", p.toString());
+
+		p = both(label1, label2).both(label1);
+		assertEquals("both('label1', 'label2').both('label1')", p.toString());
+
+		p = both(label1, label2).both(label1, label2);
+		assertEquals("both('label1', 'label2').both('label1', 'label2')", p.toString());
+	}
+
+	@Test
+	public void bothETest() {
+		String label1 = "label1";
+		String label2 = "label2";
+
+		Projection p = both(label1).bothE();
+		assertEquals("both('label1').bothE()", p.toString());
+
+		p = both(label1, label2).bothE(label1);
+		assertEquals("both('label1', 'label2').bothE('label1')", p.toString());
+
+		p = both(label1, label2).bothE(label1, label2);
+		assertEquals("both('label1', 'label2').bothE('label1', 'label2')", p.toString());
+	}
+
+	@Test
 	public void charAtTest() {
 		String simpleField = "field";
 		Projection p = projection(simpleField).charAt(4);
@@ -185,6 +217,51 @@ public class ProjectionMethodTest {
 			e.printStackTrace();
 			fail();
 		}
+	}
+
+	@Test
+	public void inTest() {
+		String label1 = "label1";
+		String label2 = "label2";
+
+		Projection p = in(label1).in();
+		assertEquals("in('label1').in()", p.toString());
+
+		p = in(label1, label2).in(label1);
+		assertEquals("in('label1', 'label2').in('label1')", p.toString());
+
+		p = in(label1, label2).in(label1, label2);
+		assertEquals("in('label1', 'label2').in('label1', 'label2')", p.toString());
+	}
+
+	@Test
+	public void inETest() {
+		String label1 = "label1";
+		String label2 = "label2";
+
+		Projection p = in(label1).inE();
+		assertEquals("in('label1').inE()", p.toString());
+
+		p = in(label1, label2).inE(label1);
+		assertEquals("in('label1', 'label2').inE('label1')", p.toString());
+
+		p = in(label1, label2).inE(label1, label2);
+		assertEquals("in('label1', 'label2').inE('label1', 'label2')", p.toString());
+	}
+
+	@Test
+	public void inVTest() {
+		String label1 = "label1";
+		String label2 = "label2";
+
+		Projection p = in(label1).inV();
+		assertEquals("in('label1').inV()", p.toString());
+
+		p = in(label1, label2).inV(label1);
+		assertEquals("in('label1', 'label2').inV('label1')", p.toString());
+
+		p = in(label1, label2).inV(label1, label2);
+		assertEquals("in('label1', 'label2').inV('label1', 'label2')", p.toString());
 	}
 
 	@Test
@@ -246,6 +323,51 @@ public class ProjectionMethodTest {
 
 		p = projection(simpleField).normalize("NFD", "xxx");
 		assertEquals("field.normalize('NFD', 'xxx')", p.toString());
+	}
+
+	@Test
+	public void outTest() {
+		String label1 = "label1";
+		String label2 = "label2";
+
+		Projection p = in(label1).out();
+		assertEquals("in('label1').out()", p.toString());
+
+		p = in(label1, label2).out(label1);
+		assertEquals("in('label1', 'label2').out('label1')", p.toString());
+
+		p = in(label1, label2).out(label1, label2);
+		assertEquals("in('label1', 'label2').out('label1', 'label2')", p.toString());
+	}
+
+	@Test
+	public void outETest() {
+		String label1 = "label1";
+		String label2 = "label2";
+
+		Projection p = in(label1).outE();
+		assertEquals("in('label1').outE()", p.toString());
+
+		p = in(label1, label2).outE(label1);
+		assertEquals("in('label1', 'label2').outE('label1')", p.toString());
+
+		p = in(label1, label2).outE(label1, label2);
+		assertEquals("in('label1', 'label2').outE('label1', 'label2')", p.toString());
+	}
+
+	@Test
+	public void outVTest() {
+		String label1 = "label1";
+		String label2 = "label2";
+
+		Projection p = in(label1).outV();
+		assertEquals("in('label1').outV()", p.toString());
+
+		p = in(label1, label2).outV(label1);
+		assertEquals("in('label1', 'label2').outV('label1')", p.toString());
+
+		p = in(label1, label2).outV(label1, label2);
+		assertEquals("in('label1', 'label2').outV('label1', 'label2')", p.toString());
 	}
 
 	@Test

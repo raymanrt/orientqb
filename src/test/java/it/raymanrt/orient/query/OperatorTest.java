@@ -8,6 +8,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static it.raymanrt.orient.query.Clause.clause;
 import static it.raymanrt.orient.query.Projection.projection;
 import static it.raymanrt.orient.query.Projection.value;
+import static it.raymanrt.orient.query.Projection.list;
 import static org.junit.Assert.assertEquals;
 
 public class OperatorTest {
@@ -97,22 +98,22 @@ public class OperatorTest {
 	public void inTest() {
 		Clause c = clause("x", Operator.IN, "string");
 		assertEquals("x IN 'string'", c.toString());
-		c = projection("x").in("string");
+		c = projection("x").in(value("string"));
 		assertEquals("x IN 'string'", c.toString());
 
 		c = clause("x", Operator.IN, newArrayList("a", "b", "c"));
 		assertEquals("x IN ['a', 'b', 'c']", c.toString());
-		c = projection("x").in(newArrayList("a", "b", "c"));
+		c = projection("x").in(list("a", "b", "c"));
 		assertEquals("x IN ['a', 'b', 'c']", c.toString());
 
 		c = clause("x", Operator.IN, newArrayList("a", 5, "c"));
 		assertEquals("x IN ['a', 5, 'c']", c.toString());
-		c = projection("x").in(newArrayList("a", 5, "c"));
+		c = projection("x").in(list("a", 5, "c"));
 		assertEquals("x IN ['a', 5, 'c']", c.toString());
 
 		c = clause("x", Operator.IN, newArrayList(1));
 		assertEquals("x IN [1]", c.toString());
-		c = projection("x").in(newArrayList(1));
+		c = projection("x").in(list(1));
 		assertEquals("x IN [1]", c.toString());
 
 		c = clause("x", Operator.IN, ProjectionFunction.out("friends"));

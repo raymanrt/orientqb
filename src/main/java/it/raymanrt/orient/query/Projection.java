@@ -42,6 +42,10 @@ public abstract class Projection implements Assignable {
 		return new AtomicProjection(cast(value));
 	}
 
+	public static Projection list(Object ... value) {
+		return new AtomicProjection(cast(newArrayList(value)));
+	}
+
 	public String getName() {
 		if(alias.isPresent())
 			return alias.get();
@@ -137,6 +141,18 @@ public abstract class Projection implements Assignable {
 		return new CompositeProjection("%s.asString()", this);
 	}
 
+	public Projection both(String ... labels) {
+		String argumentsString = listJoiner.join(transform(newArrayList(labels), singleQuoteFunction));
+		Projection arguments = projection(argumentsString);
+		return new CompositeProjection("%s.both(%s)", this, arguments);
+	}
+
+	public Projection bothE(String ... labels) {
+		String argumentsString = listJoiner.join(transform(newArrayList(labels), singleQuoteFunction));
+		Projection arguments = projection(argumentsString);
+		return new CompositeProjection("%s.bothE(%s)", this, arguments);
+	}
+
 	public Projection charAt(int position) {
 		return new CompositeProjection("%s.charAt(%s)", this, value(position));
 	}
@@ -161,6 +177,24 @@ public abstract class Projection implements Assignable {
 
 	public Projection hash(MessageDigest algorithm) {
 		return new CompositeProjection("%s.hash('%s')", this, projection(algorithm.getAlgorithm()));
+	}
+
+	public Projection in(String ... labels) {
+		String argumentsString = listJoiner.join(transform(newArrayList(labels), singleQuoteFunction));
+		Projection arguments = projection(argumentsString);
+		return new CompositeProjection("%s.in(%s)", this, arguments);
+	}
+
+	public Projection inE(String ... labels) {
+		String argumentsString = listJoiner.join(transform(newArrayList(labels), singleQuoteFunction));
+		Projection arguments = projection(argumentsString);
+		return new CompositeProjection("%s.inE(%s)", this, arguments);
+	}
+
+	public Projection inV(String ... labels) {
+		String argumentsString = listJoiner.join(transform(newArrayList(labels), singleQuoteFunction));
+		Projection arguments = projection(argumentsString);
+		return new CompositeProjection("%s.inV(%s)", this, arguments);
 	}
 
 	public Projection include(String ... fieldNames) {
@@ -203,6 +237,24 @@ public abstract class Projection implements Assignable {
 
 	public Projection normalize(String form, String patternMatching) {
 		return new CompositeProjection("%s.normalize(%s, %s)", this, value(form), value(patternMatching));
+	}
+
+	public Projection out(String ... labels) {
+		String argumentsString = listJoiner.join(transform(newArrayList(labels), singleQuoteFunction));
+		Projection arguments = projection(argumentsString);
+		return new CompositeProjection("%s.out(%s)", this, arguments);
+	}
+
+	public Projection outE(String ... labels) {
+		String argumentsString = listJoiner.join(transform(newArrayList(labels), singleQuoteFunction));
+		Projection arguments = projection(argumentsString);
+		return new CompositeProjection("%s.outE(%s)", this, arguments);
+	}
+
+	public Projection outV(String ... labels) {
+		String argumentsString = listJoiner.join(transform(newArrayList(labels), singleQuoteFunction));
+		Projection arguments = projection(argumentsString);
+		return new CompositeProjection("%s.outV(%s)", this, arguments);
 	}
 
 	public Projection prefix(String constant) {
@@ -333,7 +385,7 @@ public abstract class Projection implements Assignable {
 		return new AtomicClause(this, Operator.INSTANCEOF, dataType.toString());
 	}
 
-	public Clause in(Object value) {
+	public Clause in(Projection value) {
 		return new AtomicClause(this, Operator.IN, value);
 	}
 
