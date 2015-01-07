@@ -1,6 +1,7 @@
 package it.raymanrt.orient.query;
 
 import com.google.common.base.Optional;
+import it.raymanrt.orient.query.clause.CompositeClause;
 import it.raymanrt.orient.util.Commons;
 import it.raymanrt.orient.util.Joiner;
 
@@ -239,9 +240,13 @@ public class Query implements Assignable {
 	}
 
 	private String joinWhere() {
-		if(clauses.size() > 0) {
+		if(clauses.size() == 1) {
 			String flattenWhere = Joiner.andJoiner.join(clauses);
 			return " " + WHERE + " " + flattenWhere + " ";
+		}
+		if(clauses.size() > 1) {
+			CompositeClause and = new CompositeClause(Joiner.andJoiner, clauses.toArray(new Clause[]{}));
+			return " " + WHERE + " " + and.toString() + " ";
 		}
 		return "";
 	}
