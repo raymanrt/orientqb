@@ -6,9 +6,9 @@ import java.util.regex.Pattern;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static it.raymanrt.orient.query.Clause.clause;
+import static it.raymanrt.orient.query.Projection.list;
 import static it.raymanrt.orient.query.Projection.projection;
 import static it.raymanrt.orient.query.Projection.value;
-import static it.raymanrt.orient.query.Projection.list;
 import static org.junit.Assert.assertEquals;
 
 public class OperatorTest {

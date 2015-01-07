@@ -3,7 +3,7 @@ package it.raymanrt.orient.query;
 /**
  * Created by Riccardo Tasso on 30/12/14.
  */
-public class Parameter {
+public class Parameter extends Projection {
 
     private final String name;
 
@@ -19,5 +19,10 @@ public class Parameter {
 
     public String toString() {
         return name;
+    }
+
+    @Override
+    public String getAssignment() {
+        return toString();
     }
 }

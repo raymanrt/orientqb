@@ -7,7 +7,6 @@ import java.security.NoSuchAlgorithmException;
 
 import static it.raymanrt.orient.query.Projection.projection;
 import static it.raymanrt.orient.query.ProjectionFunction.both;
-import static it.raymanrt.orient.query.ProjectionFunction.bothE;
 import static it.raymanrt.orient.query.ProjectionFunction.in;
 import static it.raymanrt.orient.query.ProjectionFunction.max;
 import static it.raymanrt.orient.query.ProjectionFunction.out;
