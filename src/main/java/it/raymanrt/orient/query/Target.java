@@ -39,6 +39,10 @@ public class Target {
         return new Target("indexvaluesdesc:" + indexName);
     }
 
+    public static Target nested(Query query) {
+        return new Target("(" + query.toString() + ")");
+    }
+
     public String toString() {
         return this.target;
     }
