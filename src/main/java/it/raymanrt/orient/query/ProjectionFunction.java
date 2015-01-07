@@ -118,6 +118,10 @@ public class ProjectionFunction {
 
 	// WONTFIX: flatten is deprecated, why you should use it?
 
+	public static Projection gremlin(String gremlin) {
+		return new CompositeProjection("gremlin(%s)", Projection.projection(Commons.cast(gremlin)));
+	}
+
 	public static Projection ifnull(Object defaultValue, Projection... projections) {
 		String projectionString = Joiner.listJoiner.join(transform(newArrayList(projections), Commons.toStringFunction));
 		return new CompositeProjection("ifnull(%s, " + Commons.cast(defaultValue) +")", Projection.projection(projectionString));

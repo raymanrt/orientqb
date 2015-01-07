@@ -182,6 +182,15 @@ public class ProjectionFunctionTest {
 	}
 
 	@Test
+	public void gremlinTest() {
+		Projection p = gremlin("current.as('id').outE.label.groupCount(map1).optional('id')");
+		assertEquals("gremlin('current.as(\\'id\\').outE.label.groupCount(map1).optional(\\'id\\')')", p.toString());
+
+		p = gremlin("current.as(\"id\").outE.label.groupCount(map1).optional(\"id\")");
+		assertEquals("gremlin('current.as(\"id\").outE.label.groupCount(map1).optional(\"id\")')", p.toString());
+	}
+
+	@Test
 	public void ifnullTest() {
 		Projection p = ifnull("Not Found", first(projection("f1")), projection("f2"), projection("f3").index(0));
 		assertEquals("ifnull(first(f1), f2, f3[0], 'Not Found')", p.toString());
