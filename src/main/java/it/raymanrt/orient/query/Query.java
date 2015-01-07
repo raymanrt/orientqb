@@ -153,7 +153,7 @@ public class Query implements Assignable {
 	}
 
 	public Query let(String variable, Assignable assignment) {
-		letMap.put(variable, assignment);
+		letMap.put("$" + variable, assignment);
 		return this;
 	}
 

@@ -95,7 +95,7 @@ public class QueryTest {
 		Query q1 = new Query().from("V");
 		q.let("x", q1);
 		
-		assertEquals("SELECT FROM V LET x = ( SELECT FROM V )", q.toString());
+		assertEquals("SELECT FROM V LET $x = ( SELECT FROM V )", q.toString());
 	}
 
 	@Test
@@ -106,7 +106,7 @@ public class QueryTest {
 		q.let("x", q1);
 		q.let("x", q2);
 		
-		assertEquals("SELECT FROM V LET x = ( SELECT FROM C )", q.toString());
+		assertEquals("SELECT FROM V LET $x = ( SELECT FROM C )", q.toString());
 	}
 
 	@Test
@@ -117,7 +117,7 @@ public class QueryTest {
 		q.let("x", q1);
 		q.let("y", q2);
 		
-		assertEquals("SELECT FROM V LET x = ( SELECT FROM V ), y = ( SELECT FROM C )", q.toString());
+		assertEquals("SELECT FROM V LET $x = ( SELECT FROM V ), $y = ( SELECT FROM C )", q.toString());
 	}
 
 	@Test
@@ -129,7 +129,7 @@ public class QueryTest {
 			.from("C");
 		q.let("y", yQuery);
 		
-		assertEquals("SELECT FROM V LET x = ( SELECT FROM V ), y = ( SELECT FROM C )", q.toString());
+		assertEquals("SELECT FROM V LET $x = ( SELECT FROM V ), $y = ( SELECT FROM C )", q.toString());
 	}
 
 	@Test
