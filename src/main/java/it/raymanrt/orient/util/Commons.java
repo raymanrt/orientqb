@@ -57,6 +57,7 @@ public class Commons {
         }
     };
 
+    @SuppressWarnings("unchecked")
     public static String cast(Object value) {
         if(value instanceof String) {
             return singleQuote((String) value);
@@ -69,13 +70,13 @@ public class Commons {
         return value.toString();
     }
 
-    public final static String joinStrings(String ... strings) {
+    public static String joinStrings(String ... strings) {
         List<String> tokens = newArrayList(strings);
         tokens = Lists.transform(tokens, singleQuoteFunction);
         return Joiner.listJoiner.join(tokens);
     }
 
-    public static final String singleQuote(String input) {
+    public static String singleQuote(String input) {
         return "'" + input.replace("'", "\\'") + "'";
     }
 
