@@ -29,20 +29,29 @@ Writing semantically valid queries still depends on you.
 Install and First Usage
 -----------------------
 
-You can install *orientqb* from source with Maven:
+You can include *orientqb* into your Maven project as a dependency:
+```
+<dependency>
+  <groupId>com.github.raymanrt</groupId>
+  <artifactId>orientqb</artifactId>
+  <version>0.1.0</version>
+</dependency>
+```
+
+Or you can build it from source with Maven:
 
 ```
 mvn clean install
 ```
 
-Write your first query is as simple as can be imagined:
+Write your first query is as simple as you can imagine:
 
 ```java
 Query q = new Query();
 assertEquals("SELECT FROM V", q.toString());
 ```
 
-You can one or more `Projection` to your `Query` object as you want (order is preserved):
+You can declare one or more `Projection` to your `Query` object as you want (order is preserved):
 
 ```java
 Query q = new Query()
