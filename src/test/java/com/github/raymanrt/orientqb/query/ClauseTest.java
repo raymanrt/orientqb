@@ -132,7 +132,7 @@ public class ClauseTest {
 				)
 		);
 
-		assertEquals("f1 = 5 OR (f2 <> 'hello' AND f2 > 1.0)", c.toString());
+		assertEquals("f1 = 5 OR ( f2 <> 'hello' AND f2 > 1.0 )", c.toString());
 	}
 
 	@Test
@@ -148,7 +148,7 @@ public class ClauseTest {
 				)
 		);
 
-		assertEquals("(f1 > 10 OR f1 <= 100) OR (f2 <> 'hello' AND f2 > 1.0)", c.toString());
+		assertEquals("( f1 > 10 OR f1 <= 100 ) OR ( f2 <> 'hello' AND f2 > 1.0 )", c.toString());
 	}
 
 	@Test

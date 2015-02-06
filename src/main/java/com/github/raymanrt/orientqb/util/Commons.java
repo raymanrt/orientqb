@@ -16,10 +16,10 @@
 
 package com.github.raymanrt.orientqb.util;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
 import com.github.raymanrt.orientqb.query.Clause;
 import com.github.raymanrt.orientqb.query.clause.CompositeClause;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,7 +34,7 @@ public class Commons {
         public String apply(Clause input) {
             String string = input.toString();
             if(input instanceof CompositeClause)
-                string = "(" + string + ")";
+                string = "( " + string + " )";
             return string;
         }
     };

@@ -35,7 +35,7 @@ public class MoreQueryTest {
 					projection("c").eq(true)
 			))
 		;
-		assertEquals("SELECT FROM V WHERE a = true AND (b = true OR c = true)", q.toString());
+		assertEquals("SELECT FROM V WHERE a = true AND ( b = true OR c = true )", q.toString());
 	}
 
 	@Test
