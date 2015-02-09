@@ -68,4 +68,10 @@ public class ProjectionTest {
 		assertEquals(format("distinct(set(union(%s))[0]) as %s", field, alias), p.toString());
 	}
 
+    @Test
+    public void projectionLikeTest() {
+        Clause c = Projection.projection("field").like(Parameter.parameter("var"));
+        assertEquals("field LIKE :var", c.toString());
+    }
+
 }

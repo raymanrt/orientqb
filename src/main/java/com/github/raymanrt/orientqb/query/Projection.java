@@ -16,27 +16,27 @@
 
 package com.github.raymanrt.orientqb.query;
 
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
 import com.github.raymanrt.orientqb.query.clause.AtomicClause;
 import com.github.raymanrt.orientqb.query.clause.CustomFormatClause;
 import com.github.raymanrt.orientqb.query.projection.AtomicProjection;
 import com.github.raymanrt.orientqb.query.projection.CompositeProjection;
 import com.github.raymanrt.orientqb.util.Commons;
 import com.github.raymanrt.orientqb.util.Patterns;
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
 
 import java.security.MessageDigest;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Lists.transform;
 import static com.github.raymanrt.orientqb.util.Commons.arrayToString;
 import static com.github.raymanrt.orientqb.util.Commons.cast;
 import static com.github.raymanrt.orientqb.util.Commons.singleQuote;
 import static com.github.raymanrt.orientqb.util.Commons.singleQuoteFunction;
 import static com.github.raymanrt.orientqb.util.Joiner.listJoiner;
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.transform;
 
 public abstract class Projection implements Assignable {
 
@@ -393,7 +393,7 @@ public abstract class Projection implements Assignable {
 		return new AtomicClause(this, Operator.GE, value);
 	}
 
-	public Clause like(String value) {
+	public Clause like(Object value) {
 		return new AtomicClause(this, Operator.LIKE, value);
 	}
 
