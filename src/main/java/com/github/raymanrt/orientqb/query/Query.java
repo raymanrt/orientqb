@@ -16,10 +16,10 @@
 
 package com.github.raymanrt.orientqb.query;
 
-import com.google.common.base.Optional;
 import com.github.raymanrt.orientqb.query.clause.CompositeClause;
 import com.github.raymanrt.orientqb.util.Commons;
 import com.github.raymanrt.orientqb.util.Joiner;
+import com.google.common.base.Optional;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -28,8 +28,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import static com.google.common.collect.Maps.newLinkedHashMap;
-import static com.google.common.collect.Sets.newLinkedHashSet;
 import static com.github.raymanrt.orientqb.query.Projection.projection;
 import static com.github.raymanrt.orientqb.query.Target.target;
 import static com.github.raymanrt.orientqb.util.Token.FETCHPLAN;
@@ -44,6 +42,8 @@ import static com.github.raymanrt.orientqb.util.Token.SELECT;
 import static com.github.raymanrt.orientqb.util.Token.SKIP;
 import static com.github.raymanrt.orientqb.util.Token.TIMEOUT;
 import static com.github.raymanrt.orientqb.util.Token.WHERE;
+import static com.google.common.collect.Maps.newLinkedHashMap;
+import static com.google.common.collect.Sets.newLinkedHashSet;
 import static java.lang.String.format;
 
 public class Query implements Assignable {
@@ -109,7 +109,9 @@ public class Query implements Assignable {
 	}
 
 	public Query where(Clause clause) {
-		clauses.add(clause);
+		if(!clause.isEmpty()) {
+            clauses.add(clause);
+        }
 		return this;
 	}
 

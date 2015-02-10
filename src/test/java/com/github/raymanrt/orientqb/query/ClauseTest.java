@@ -197,5 +197,25 @@ public class ClauseTest {
         assertFalse(c.isEmpty());
     }
 
+    @Test
+    public void emptyClauseQueryTest() {
+        Clause empty = and();
+        assertTrue(empty.isEmpty());
+
+        Clause notEmpty = Projection.projection("x").field("test", 5);
+
+        Query q1 = new Query()
+                .from("SomeClass")
+                .where(notEmpty);
+
+        Query q2 = new Query()
+                .from("SomeClass")
+                .where(empty)
+                .where(notEmpty)
+                .where(empty);
+
+        assertEquals(q1.toString(), q2.toString());
+    }
+
 
 }
