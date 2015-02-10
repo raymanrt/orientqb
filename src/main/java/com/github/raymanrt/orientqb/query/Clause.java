@@ -44,4 +44,8 @@ public class Clause {
     public static final Clause or(Clause ... clauses) {
         return new CompositeClause(Joiner.orJoiner, clauses);
     }
+
+    public boolean isEmpty() {
+        return this.toString().trim().isEmpty();
+    }
 }

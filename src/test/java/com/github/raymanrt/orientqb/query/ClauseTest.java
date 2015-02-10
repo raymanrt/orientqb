@@ -24,6 +24,8 @@ import static com.github.raymanrt.orientqb.query.Clause.clause;
 import static com.github.raymanrt.orientqb.query.Clause.not;
 import static com.github.raymanrt.orientqb.query.Clause.or;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ClauseTest {
 
@@ -178,6 +180,22 @@ public class ClauseTest {
 		c = not(clause("x", Operator.EQ, "5"));
 		assertEquals("NOT(x = '5')", c.toString());
 	}
+
+    @Test
+    public void isEmptyTest() {
+        Clause c = and();
+        assertTrue(c.isEmpty());
+
+        Projection p = ProjectionFunction.out("prj");
+        c = p.field("test", 5);
+        assertFalse(c.isEmpty());
+
+        Projection q = ProjectionFunction.out("prj");
+        Clause c1 = c;
+        Clause c2 = q.field("test", "hello");
+        c = and(c1, c2);
+        assertFalse(c.isEmpty());
+    }
 
 
 }
