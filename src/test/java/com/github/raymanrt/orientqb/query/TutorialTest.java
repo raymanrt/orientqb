@@ -142,7 +142,7 @@ public class TutorialTest {
 						projection("f2").eq(5),
 						not(projection("f3").lt(0))
 				));
-		assertEquals("SELECT * FROM Class WHERE f2 = 5 OR NOT(f3 < 0)", q.toString());
+		assertEquals("SELECT * FROM Class WHERE f2 = 5 OR NOT f3 < 0", q.toString());
 	}
 
 	@Test

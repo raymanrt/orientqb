@@ -22,6 +22,7 @@ import com.github.raymanrt.orientqb.query.clause.CustomFormatClause;
 import com.github.raymanrt.orientqb.util.Joiner;
 
 import static com.github.raymanrt.orientqb.query.Operator.NOT;
+import static com.github.raymanrt.orientqb.query.Operator.NOT_WITHOUT_PARENTHESIS;
 
 public class Clause {
 
@@ -38,6 +39,9 @@ public class Clause {
     }
 
     public static final Clause not(Clause clause) {
+        if(clause instanceof AtomicClause)
+            return new CustomFormatClause(NOT_WITHOUT_PARENTHESIS, clause);
+
         return new CustomFormatClause(NOT, clause);
     }
 

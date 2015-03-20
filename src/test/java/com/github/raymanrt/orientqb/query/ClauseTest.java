@@ -172,14 +172,23 @@ public class ClauseTest {
 		assertEquals("out('prj')[test = 'test\\'d']", c.toString());
 	}
 
-	@Test
-	public void notTest() {
-		Clause c = not(clause("x", Operator.EQ, 5));
-		assertEquals("NOT(x = 5)", c.toString());
+    @Test
+    public void notTest() {
+        Clause c = not(clause("x", Operator.EQ, 5));
+        assertEquals("NOT x = 5", c.toString());
 
-		c = not(clause("x", Operator.EQ, "5"));
-		assertEquals("NOT(x = '5')", c.toString());
-	}
+        c = not(clause("x", Operator.EQ, "5"));
+        assertEquals("NOT x = '5'", c.toString());
+    }
+
+    @Test
+    public void notWithManyClausesTest() {
+        Clause c = not(and(
+                clause("x", Operator.EQ, 5),
+                clause("y", Operator.LE, 5)
+        ));
+        assertEquals("NOT (x = 5 AND y <= 5)", c.toString());
+    }
 
     @Test
     public void isEmptyTest() {

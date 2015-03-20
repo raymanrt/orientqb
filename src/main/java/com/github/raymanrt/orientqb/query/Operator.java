@@ -50,7 +50,8 @@ public enum Operator {
     // TODO: these are not operators, but should be treated the same
     FIELD("%s[%s = %s]"),
 
-    NOT("NOT(%s)")
+    NOT("NOT (%s)"),
+    NOT_WITHOUT_PARENTHESIS("NOT %s"),
 
     ;
 
