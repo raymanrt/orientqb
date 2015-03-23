@@ -467,4 +467,12 @@ public abstract class Projection implements Assignable {
 	public Clause between(Number from, Number to) {
 		return new CustomFormatClause(Operator.BETWEEN, this, cast(from), cast(to));
 	}
+
+    public Clause defined(){
+        return new CustomFormatClause(Operator.DEFINED, this);
+    }
+
+    public Clause notDefined(){
+        return new CustomFormatClause(Operator.NOT_DEFINED, this);
+    }
 }

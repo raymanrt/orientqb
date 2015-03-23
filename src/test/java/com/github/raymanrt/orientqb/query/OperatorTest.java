@@ -220,4 +220,16 @@ public class OperatorTest {
 		Clause c = projection("x").between(5, 6.5);
 		assertEquals("x BETWEEN 5 AND 6.5", c.toString());
 	}
+
+    @Test
+   	public void definedTest() {
+   		Clause c = projection("x").defined();
+   		assertEquals("x IS DEFINED", c.toString());
+   	}
+
+    @Test
+   	public void notDefinedTest() {
+   		Clause c = projection("x").notDefined();
+   		assertEquals("x IS NOT DEFINED", c.toString());
+   	}
 }
