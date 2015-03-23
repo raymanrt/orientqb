@@ -53,6 +53,9 @@ public enum Operator {
     NOT("NOT (%s)"),
     NOT_WITHOUT_PARENTHESIS("NOT %s"),
 
+    DEFINED("%s IS DEFINED"),
+    NOT_DEFINED("%s IS NOT DEFINED")
+
     ;
 
 
