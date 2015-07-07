@@ -20,12 +20,12 @@ import org.junit.Test;
 
 import java.util.regex.Pattern;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static com.github.raymanrt.orientqb.query.Clause.clause;
 import static com.github.raymanrt.orientqb.query.Parameter.parameter;
 import static com.github.raymanrt.orientqb.query.Projection.list;
 import static com.github.raymanrt.orientqb.query.Projection.projection;
 import static com.github.raymanrt.orientqb.query.Projection.value;
+import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.Assert.assertEquals;
 
 public class OperatorTest {
@@ -222,14 +222,26 @@ public class OperatorTest {
 	}
 
     @Test
-   	public void definedTest() {
-   		Clause c = projection("x").defined();
-   		assertEquals("x IS DEFINED", c.toString());
-   	}
+    public void definedTest() {
+        Clause c = projection("x").defined();
+        assertEquals("x IS DEFINED", c.toString());
+    }
 
     @Test
-   	public void notDefinedTest() {
-   		Clause c = projection("x").notDefined();
-   		assertEquals("x IS NOT DEFINED", c.toString());
-   	}
+    public void notDefinedTest() {
+        Clause c = projection("x").notDefined();
+        assertEquals("x IS NOT DEFINED", c.toString());
+    }
+
+    @Test
+    public void isNullTest() {
+        Clause c = projection("x").isNull();
+        assertEquals("x IS NULL", c.toString());
+    }
+
+    @Test
+    public void notNullTest() {
+        Clause c = projection("x").notNull();
+        assertEquals("x IS NOT NULL", c.toString());
+    }
 }

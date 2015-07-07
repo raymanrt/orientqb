@@ -475,4 +475,12 @@ public abstract class Projection implements Assignable {
     public Clause notDefined(){
         return new CustomFormatClause(Operator.NOT_DEFINED, this);
     }
+
+    public Clause isNull(){
+        return new CustomFormatClause(Operator.NULL, this);
+    }
+
+    public Clause notNull(){
+        return new CustomFormatClause(Operator.NOT_NULL, this);
+    }
 }
