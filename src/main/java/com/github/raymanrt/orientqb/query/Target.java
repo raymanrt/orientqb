@@ -21,6 +21,7 @@ import com.github.raymanrt.orientqb.util.Commons;
 public class Target {
 
     public static final Target DEFAULT = new Target("V");
+    public static final String CLUSTER = "cluster:";
 
     private final String target;
 
@@ -37,7 +38,11 @@ public class Target {
     }
 
     public static Target cluster(int cluster) {
-        return new Target("cluster:" + Integer.toString(cluster));
+        return new Target(CLUSTER + Integer.toString(cluster));
+    }
+
+    public static Target cluster(String cluster) {
+        return new Target(CLUSTER + cluster);
     }
 
     public static Target indexValues(String indexName) {

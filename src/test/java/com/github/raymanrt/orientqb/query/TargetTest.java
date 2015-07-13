@@ -42,6 +42,12 @@ public class TargetTest {
 		assertEquals("cluster:5", t.toString());
 	}
 
+    @Test
+    public void namedClusterTest() {
+        Target t = Target.cluster("person");
+        assertEquals("cluster:person", t.toString());
+    }
+
 	@Test
 	public void indexValuesTest() {
 		Target t = Target.indexValues("myIndex");
