@@ -359,6 +359,10 @@ public abstract class Projection implements Assignable {
 		return new CompositeProjection("%s %% %s", this, value(number));
 	}
 
+    public Projection field(Clause clause) {
+        return new CompositeProjection("%s[%s]", this, value(clause));
+    }
+
 	//// CLAUSES ////
 
 	public Clause field(String field, Object value) {

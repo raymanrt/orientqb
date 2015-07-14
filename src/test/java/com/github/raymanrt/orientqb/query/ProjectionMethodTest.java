@@ -59,6 +59,19 @@ public class ProjectionMethodTest {
 		assertEquals("clause[f1, f2, f3]", p.toString());
 	}
 
+    @Test
+    public void projectionFieldWithExpressionTest() {
+        Clause c = Projection.projection("f").eq(5);
+        Projection p = Projection.projection("field").field(c);
+
+        assertEquals("field[f = 5]", p.toString());
+
+        c = Projection.projection("f").plus(1).gt(0);
+        p = Projection.projection("field").field(c);
+
+        assertEquals("field[f + 1 > 0]", p.toString());
+    }
+
 	@Test
 	public void appendTest() {
 		String simpleField = "clause";
