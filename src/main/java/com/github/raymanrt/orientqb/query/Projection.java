@@ -401,9 +401,13 @@ public abstract class Projection implements Assignable {
 		return new AtomicClause(this, Operator.LIKE, value);
 	}
 
-	public Clause instanceOf(DataType dataType) {
-		return new AtomicClause(this, Operator.INSTANCEOF, dataType.toString());
-	}
+    public Clause instanceOf(DataType dataType) {
+        return new AtomicClause(this, Operator.INSTANCEOF, dataType.toString());
+    }
+
+    public Clause instanceOf(String className) {
+        return new AtomicClause(this, Operator.INSTANCEOF, className);
+    }
 
 	public Clause in(Projection value) {
 		return new AtomicClause(this, Operator.IN, value);

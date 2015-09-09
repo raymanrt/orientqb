@@ -107,8 +107,11 @@ public class OperatorTest {
 		Clause c = clause("x", Operator.INSTANCEOF, "string");
 		assertEquals("x INSTANCEOF 'string'", c.toString());
 
-		c = projection("x").instanceOf(DataType.BOOLEAN);
-		assertEquals("x INSTANCEOF 'BOOLEAN'", c.toString());
+        c = projection("x").instanceOf(DataType.BOOLEAN);
+        assertEquals("x INSTANCEOF 'BOOLEAN'", c.toString());
+
+        c = Variable.thisRecord().instanceOf("MyClass");
+        assertEquals("@this INSTANCEOF 'MyClass'", c.toString());
 	}
 
 	@Test
