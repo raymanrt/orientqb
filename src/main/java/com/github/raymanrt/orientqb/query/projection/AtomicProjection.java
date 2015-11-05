@@ -18,12 +18,52 @@ package com.github.raymanrt.orientqb.query.projection;
 
 import com.github.raymanrt.orientqb.query.Projection;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class AtomicProjection extends Projection {
     private final String field;
 
+    private static Set<String> reserved = new HashSet<String>();
+
+    static {
+        reserved.add("select");
+        reserved.add("traverse");
+        reserved.add("insert");
+        reserved.add("update");
+        reserved.add("delete");
+        reserved.add("from");
+        reserved.add("where");
+        reserved.add("skip");
+        reserved.add("limit");
+        reserved.add("timeout");
+        reserved.add("contains");
+        reserved.add("match");
+        reserved.add("into");
+        reserved.add("values");
+        reserved.add("set");
+        reserved.add("add");
+        reserved.add("remove");
+        reserved.add("and");
+        reserved.add("or");
+        reserved.add("null");
+        reserved.add("order");
+        reserved.add("by");
+        reserved.add("limit");
+        reserved.add("range");
+        reserved.add("asc");
+        reserved.add("dessc");
+        reserved.add("as");
+        reserved.add("this");
+    }
+
     public AtomicProjection(String field) {
         super();
-        this.field = field;
+        if (reserved.contains(field.toLowerCase())){
+            this.field = "`" + field + "`";
+        } else {
+            this.field = field;
+        }
     }
 
     public String toString() {
@@ -37,4 +77,5 @@ public class AtomicProjection extends Projection {
     public String getAssignment() {
         return field;
     }
+
 }

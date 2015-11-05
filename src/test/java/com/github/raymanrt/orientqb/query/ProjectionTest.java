@@ -74,4 +74,10 @@ public class ProjectionTest {
         assertEquals("field LIKE :var", c.toString());
     }
 
+	@Test
+	public void projectionReservedWordsTest(){
+		Clause c = Projection.projection("contains").like(Parameter.parameter("var"));
+		assertEquals("`contains` LIKE :var", c.toString());
+	}
+
 }

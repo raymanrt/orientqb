@@ -26,7 +26,11 @@ public class Target {
     private final String target;
 
     public Target(String target) {
-        this.target = target;
+        if (target.indexOf('-') != -1){
+            this.target = "`" + target + "`";
+        } else {
+            this.target = target;
+        }
     }
 
     public static Target target(String target) {
