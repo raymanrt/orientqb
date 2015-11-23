@@ -17,7 +17,6 @@
 package com.github.raymanrt.orientqb.query;
 
 public enum Direction {
-
     OUT,
     IN,
     BOTH

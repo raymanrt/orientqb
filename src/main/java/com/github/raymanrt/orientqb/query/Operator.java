@@ -16,6 +16,8 @@
 
 package com.github.raymanrt.orientqb.query;
 
+import com.github.raymanrt.orientqb.util.Token;
+
 public enum Operator {
 
     // unary
@@ -29,11 +31,11 @@ public enum Operator {
 
     INSTANCEOF("%s INSTANCEOF %s"),
     IN("%s IN %s"),
-    CONTAINS("%s CONTAINS %s"),
+    CONTAINS("%s " + Token.CONTAINS + " %s"),
     CONTAINS_KEY("%s CONTAINSKEY %s"),
     CONTAINS_VALUE("%s CONTAINSVALUE %s"),
     CONTAINS_TEXT("%s CONTAINSTEXT %s"),
-    MATCHES("%s MATCHES %s"),
+    MATCHES("%s " + Token.MATCHES + " %s"),
 
     LUCENE("%s LUCENE %s"),
 
@@ -50,14 +52,14 @@ public enum Operator {
     // TODO: these are not operators, but should be treated the same
     FIELD("%s[%s = %s]"),
 
-    NOT("NOT (%s)"),
-    NOT_WITHOUT_PARENTHESIS("NOT %s"),
+    NOT(Token.NOT + " (%s)"),
+    NOT_WITHOUT_PARENTHESIS(Token.NOT + " %s"),
 
     DEFINED("%s IS DEFINED"),
     NOT_DEFINED("%s IS NOT DEFINED"),
 
-    NULL("%s IS NULL"),
-    NOT_NULL("%s IS NOT NULL")
+    NULL("%s IS " + Token.NULL),
+    NOT_NULL("%s IS " + Token.NOT + " " + Token.NULL)
 
     ;
 

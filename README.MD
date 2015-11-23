@@ -266,6 +266,11 @@ Other Query methods
 * LOCK (and locking strategies)
 * PARALLEL
 
+OSQL Versions
+-------------
+
+*orientqb* supports always the lastest version of OSQL. The lastest version tested with OSQL 2.0 is 0.1.5, also if following versions would work anyway.
+
 To be completed after 0.1.0 release
 -----------------------------------
 

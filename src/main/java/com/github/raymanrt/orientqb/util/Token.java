@@ -16,8 +16,19 @@
 
 package com.github.raymanrt.orientqb.util;
 
+import com.google.common.collect.Sets;
+
+import java.lang.reflect.Field;
+import java.util.Set;
+
 public class Token {
+
     public static final String SELECT = "SELECT";
+    public static final String TRAVERSE = "TRAVERSE";
+    public static final String INSERT = "INSERT";
+    public static final String UPDATE = "UPDATE";
+    public static final String DELETE = "DELETE";
+
     public static final String LET = "LET";
     public static final String FROM = "FROM";
     public static final String WHERE = "WHERE";
@@ -26,8 +37,39 @@ public class Token {
     public static final String SKIP = "SKIP";
     public static final String LIMIT = "LIMIT";
 
+    public static final String INTO = "INTO";
+    public static final String VALUES = "VALUES";
+    public static final String SET = "SET";
+    public static final String ADD = "ADD";
+    public static final String REMOVE = "REMOVE";
+
+    public static final String RANGE = "RANGE";
+    public static final String ASC = "ASC";
+    public static final String DESC = "DESC";
+    public static final String AS = "AS";
+    public static final String THIS = "THIS";
+
+
+    public static final String NULL = "NULL";
+
     public static final String FETCHPLAN = "FETCHPLAN";
     public static final String TIMEOUT = "TIMEOUT";
     public static final String LOCK = "LOCK";
     public static final String PARALLEL = "PARALLEL";
+
+    // Operators
+    public static final String CONTAINS = "CONTAINS";
+    public static final String MATCHES = "MATCHES";
+
+    public static final String AND = "AND";
+    public static final String OR = "OR";
+    public static final String NOT = "NOT";
+
+    public static final Set<String> tokens() {
+        Set<String> tokens = Sets.newHashSet();
+        for(Field field : Token.class.getFields()) {
+            tokens.add(field.getName());
+        }
+        return tokens;
+    }
 }
