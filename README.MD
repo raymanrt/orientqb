@@ -269,7 +269,7 @@ Other Query methods
 OSQL Versions
 -------------
 
-*orientqb* supports always the lastest version of OSQL. The lastest version tested with OSQL 2.0 is 0.1.5, also if following versions would work anyway.
+*orientqb* supports always the lastest version of OSQL. The lastest version tested with OSQL 2.0 is 0.1.5, also if for many queries will work anyway.
 
 To be completed after 0.1.0 release
 -----------------------------------
