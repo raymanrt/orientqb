@@ -34,7 +34,7 @@ You can include *orientqb* into your Maven project as a dependency:
 <dependency>
   <groupId>com.github.raymanrt</groupId>
   <artifactId>orientqb</artifactId>
-  <version>0.1.5</version>
+  <version>0.1.6</version>
 </dependency>
 ```
 
