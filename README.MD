@@ -250,6 +250,23 @@ Query q = new Query()
 assertEquals("SELECT * FROM Class WHERE f = :fParameter", q.toString());
 ```
 
+The null object for clauses is simply a new Clause:
+
+```
+Clause c = new Clause();
+assertTrue(c.isEmpty());
+
+Query q1 = new Query()
+	.select(Projection.ALL)
+	.where(new Clause());
+
+Query q2 = new Query()
+	.select(Projection.ALL);
+
+assertEquals(q1.toString(), q2.toString());
+
+```
+
 All the [conditional operators](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/SQL-Where.html#conditional-operators)
 are supported. Please **always** remember that *orientqb* hasn't any knowledge of the schema of your data and you should
 care of using valid operators for your field.
