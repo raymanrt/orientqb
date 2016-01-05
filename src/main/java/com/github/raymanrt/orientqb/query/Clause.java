@@ -52,4 +52,8 @@ public class Clause {
     public boolean isEmpty() {
         return this.toString().trim().isEmpty();
     }
+
+    public String toString() {
+        return "";
+    }
 }

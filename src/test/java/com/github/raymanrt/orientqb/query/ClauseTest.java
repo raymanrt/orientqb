@@ -208,6 +208,11 @@ public class ClauseTest {
 
     @Test
     public void emptyClauseQueryTest() {
+
+		Clause c = new Clause();
+		assertTrue(c.isEmpty());
+
+
         Clause empty = and();
         assertTrue(empty.isEmpty());
 
