@@ -20,6 +20,7 @@ import com.github.raymanrt.orientqb.util.Commons;
 
 public class Target {
 
+    public static final Target EMPTY = new Target("");
     public static final Target DEFAULT = new Target("V");
     public static final String CLUSTER = "cluster:";
 

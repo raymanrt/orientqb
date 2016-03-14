@@ -20,7 +20,7 @@ import org.junit.Test;
 
 import static com.github.raymanrt.orientqb.query.ProjectionFunction.distinct;
 import static com.github.raymanrt.orientqb.query.ProjectionFunction.set;
-import static com.github.raymanrt.orientqb.query.ProjectionFunction.union;
+import static com.github.raymanrt.orientqb.query.ProjectionFunction.unionAll;
 import static java.lang.String.format;
 import static org.junit.Assert.assertEquals;
 
@@ -47,8 +47,8 @@ public class ProjectionTest {
 	public void projectionWithModifierTest() {
 		String field = "f";
 		String alias = "a";
-		Projection p = union(Projection.projection(field)).as(alias);
-		assertEquals(format("union(%s) as %s", field, alias), p.toString());
+		Projection p = unionAll(Projection.projection(field)).as(alias);
+		assertEquals(format("unionAll(%s) as %s", field, alias), p.toString());
 		assertEquals(alias, p.getName());
 	}
 
@@ -59,13 +59,13 @@ public class ProjectionTest {
 
 		Projection p = distinct(
 				set(
-						union(
+						unionAll(
 								Projection.projection(field)
 						)
 				).index(0)
 		).as(alias);
 
-		assertEquals(format("distinct(set(union(%s))[0]) as %s", field, alias), p.toString());
+		assertEquals(format("distinct(set(unionAll(%s))[0]) as %s", field, alias), p.toString());
 	}
 
     @Test

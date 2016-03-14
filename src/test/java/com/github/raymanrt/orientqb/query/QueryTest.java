@@ -20,6 +20,10 @@ import org.junit.Test;
 
 import static com.github.raymanrt.orientqb.query.Projection.ALL;
 import static com.github.raymanrt.orientqb.query.Projection.projection;
+import static com.github.raymanrt.orientqb.query.ProjectionFunction.expand;
+import static com.github.raymanrt.orientqb.query.ProjectionFunction.unionAll;
+import static com.github.raymanrt.orientqb.query.Target.nested;
+import static com.github.raymanrt.orientqb.query.Variable.variable;
 import static org.junit.Assert.assertEquals;
 
 public class QueryTest {
@@ -108,7 +112,7 @@ public class QueryTest {
 	@Test
 	public void letQueryTest() {
 		Query q = new Query();
-		Query q1 = new Query().from("V");
+		Query q1 = new Query();
 		q.let("x", q1);
 		
 		assertEquals("SELECT FROM V LET $x = ( SELECT FROM V )", q.toString());

@@ -429,12 +429,12 @@ public class ProjectionFunctionTest {
 	@Test
 	public void unionTest() {
 
-		Projection p = union(projection("p"));
-		assertEquals("union(p)", p.toString());
+		Projection p = unionAll(projection("p"));
+		assertEquals("unionAll(p)", p.toString());
 
-		p = union(out("friend"), out("enemy"));
+		p = unionAll(out("friend"), out("enemy"));
 		p.as("all");
-		assertEquals("union(out('friend'), out('enemy')) as all", p.toString());
+		assertEquals("unionAll(out('friend'), out('enemy')) as all", p.toString());
 	}
 
 	@Test

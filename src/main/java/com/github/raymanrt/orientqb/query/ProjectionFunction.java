@@ -257,11 +257,11 @@ public class ProjectionFunction {
 		return new CompositeProjection("traversedVertex(%s)", Projection.projection(projectionString));
 	}
 
-	public static Projection union(Projection firstProjection, Projection... projections) {
+	public static Projection unionAll(Projection firstProjection, Projection... projections) {
 		List<Projection> allProjections = newArrayList(projections);
 		allProjections.add(0, firstProjection);
 		String projectionsString = Joiner.listJoiner.join(transform(newArrayList(allProjections), Commons.toStringFunction));
-		return new CompositeProjection("union(%s)", Projection.projection(projectionsString));
+		return new CompositeProjection("unionAll(%s)", Projection.projection(projectionsString));
 	}
 
 	//// SPECIAL ////

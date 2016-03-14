@@ -98,6 +98,11 @@ public class Query implements Assignable {
 		return this;
 	}
 
+	public Query fromEmpty() {
+		this.target = Target.EMPTY;
+		return this;
+	}
+
 	public Query from(Target target) {
 		this.target = target;
 		return this;
@@ -213,7 +218,11 @@ public class Query implements Assignable {
 	}
 
 	public String toString() {
-		String base = SELECT + " %s " + FROM + " %s ";
+		String base = SELECT + " %s ";
+
+		if(!target.equals(Target.EMPTY)) {
+			base +=  " " + FROM + " %s ";
+		}
 
 		String joinedProjections = joinProjections();
 		String query = format(base, joinedProjections, target);

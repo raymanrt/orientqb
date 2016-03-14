@@ -21,7 +21,11 @@ import org.junit.Test;
 import static com.github.raymanrt.orientqb.query.Parameter.PARAMETER;
 import static com.github.raymanrt.orientqb.query.Parameter.parameter;
 import static com.github.raymanrt.orientqb.query.Projection.projection;
+import static com.github.raymanrt.orientqb.query.ProjectionFunction.expand;
 import static com.github.raymanrt.orientqb.query.ProjectionFunction.out;
+import static com.github.raymanrt.orientqb.query.ProjectionFunction.unionAll;
+import static com.github.raymanrt.orientqb.query.Target.nested;
+import static com.github.raymanrt.orientqb.query.Variable.variable;
 import static org.junit.Assert.assertEquals;
 
 public class MoreQueryTest {
@@ -61,5 +65,25 @@ public class MoreQueryTest {
 		Query q = new Query()
 				.where(out("label").contains(parameter("par")));
 		assertEquals("SELECT FROM V WHERE out('label') CONTAINS :par", q.toString());
+	}
+
+	@Test
+	public void nestedUnionAllQueryTest() {
+		Query q = new Query()
+				.from(nested(new Query()
+						.select(expand(variable("c")))
+						.let("a", new Query().from("D"))
+						.let("b", new Query().from("I"))
+						.let("c", unionAll(variable("a"), variable("b")))
+						.fromEmpty()
+				))
+				.where(projection("value").eq(5))
+				.limit(10);
+
+		assertEquals("SELECT FROM (SELECT expand($c) " +
+				"LET $a = ( SELECT FROM D ), $b = ( SELECT FROM I ), $c = unionAll($a, $b)) " +
+				"WHERE value = 5 " +
+				"LIMIT 10", q.toString());
+
 	}
 }
