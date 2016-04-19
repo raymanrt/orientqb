@@ -27,7 +27,10 @@ public class Target {
     private final String target;
 
     public Target(String target) {
-        if (target.indexOf('-') != -1){
+        int indexOf = target.indexOf('-');
+        boolean betweenQuotes = target.indexOf('\'') < indexOf && target.indexOf('\'', indexOf) > indexOf;
+        boolean betweenApostrophes = target.indexOf('`') < indexOf && target.indexOf('`', indexOf) > indexOf;
+        if (indexOf != -1 && !(betweenQuotes || betweenApostrophes)) {
             this.target = "`" + target + "`";
         } else {
             this.target = target;
@@ -38,7 +41,7 @@ public class Target {
         return new Target(target);
     }
 
-    public static Target target(String ... targets) {
+    public static Target target(String... targets) {
         return new Target(Commons.arrayToString(targets));
     }
 
