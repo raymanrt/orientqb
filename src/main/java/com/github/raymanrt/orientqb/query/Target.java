@@ -27,14 +27,33 @@ public class Target {
     private final String target;
 
     public Target(String target) {
-        int indexOf = target.indexOf('-');
-        boolean betweenQuotes = target.indexOf('\'') < indexOf && target.indexOf('\'', indexOf) > indexOf;
-        boolean betweenApostrophes = target.indexOf('`') < indexOf && target.indexOf('`', indexOf) > indexOf;
-        if (indexOf != -1 && !(betweenQuotes || betweenApostrophes)) {
+        if (shouldBeEscaped(target)) {
             this.target = "`" + target + "`";
         } else {
             this.target = target;
         }
+    }
+
+    private boolean shouldBeEscaped(String target) {
+        int indexOf = target.indexOf('-');
+        if(indexOf == -1) {
+            return false;
+        }
+
+        boolean betweenQuotes = between(target, indexOf, '\'');
+        if(betweenQuotes) {
+            return false;
+        }
+        boolean betweenApostrophes = between(target, indexOf, '`');
+        if(betweenApostrophes) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean between(String target, int indexOf, char c) {
+        return target.indexOf(c) < indexOf && target.indexOf(c, indexOf) > indexOf;
     }
 
     public static Target target(String target) {
