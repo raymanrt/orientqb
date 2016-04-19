@@ -19,7 +19,10 @@ package com.github.raymanrt.orientqb.query;
 import org.junit.Test;
 
 import static com.github.raymanrt.orientqb.query.Projection.projection;
+import static com.github.raymanrt.orientqb.query.ProjectionFunction.expand;
+import static com.github.raymanrt.orientqb.query.ProjectionFunction.in;
 import static com.github.raymanrt.orientqb.query.ProjectionFunction.sum;
+import static com.github.raymanrt.orientqb.query.Variable.rid;
 import static org.junit.Assert.assertEquals;
 
 public class TargetTest {
@@ -82,6 +85,43 @@ public class TargetTest {
 		q.from(t)
 		.where(projection("salary").gt(1000));
 		assertEquals("SELECT FROM (SELECT city, sum(salary) as salary FROM Employee GROUP BY city) WHERE salary > 1000", q.toString());
+	}
+
+	@Test
+	public void nestedQuotedTest() {
+		Query q = new Query();
+
+		Query nested = new Query()
+				.select(expand(in("Employees-per-city")))
+				.from("Employee")
+				;
+
+		Target t = Target.nested(nested);
+
+		q.from(t);
+
+		assertEquals("SELECT FROM (SELECT expand(in('Employees-per-city')) FROM Employee)", q.toString());
+	}
+
+	@Test
+	public void notNestedQuotedTest() {
+		Query subQuery = new Query();
+
+		Query nested = new Query()
+				.select("city")
+				.from("Employee")
+				.groupBy("Employees-per-city")
+				;
+
+		Target t = Target.nested(nested);
+
+		subQuery.from(t);
+		Query q = new Query()
+				.select(expand(rid()))
+				.from(Target.nested(subQuery))
+				;
+
+		assertEquals("SELECT expand(@rid) FROM (SELECT FROM `(SELECT city FROM Employee GROUP BY Employees-per-city)`)", q.toString());
 	}
 
 }
