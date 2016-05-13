@@ -150,8 +150,10 @@ public class Query implements Assignable {
 		return this;
 	}
 
-	public Query fetchPlan(FetchingStrategy strategy) {
-		fetchPlan.add(strategy.toString());
+	public Query fetchPlan(FetchingStrategy... strategies) {
+		for(Strategy strategy : strategies) {
+			fetchPlan.add(strategy.toString());
+		}
 		return this;
 	}
 
@@ -317,7 +319,7 @@ public class Query implements Assignable {
 
 	private String generateFetchPlan() {
 		if(fetchPlan.size() > 0) {
-			String fetchPlanString = Joiner.listJoiner.join(fetchPlan);
+			String fetchPlanString = Joiner.oneSpaceJoiner.join(fetchPlan);
 			return " " + FETCHPLAN + " " + fetchPlanString + " ";
 		}
 		return "";
