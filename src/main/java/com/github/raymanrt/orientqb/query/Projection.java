@@ -35,6 +35,7 @@ import static com.github.raymanrt.orientqb.util.Commons.cast;
 import static com.github.raymanrt.orientqb.util.Commons.singleQuote;
 import static com.github.raymanrt.orientqb.util.Commons.singleQuoteFunction;
 import static com.github.raymanrt.orientqb.util.Joiner.listJoiner;
+import static com.github.raymanrt.orientqb.util.Joiner.commaJoiner;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.transform;
 
@@ -322,7 +323,11 @@ public abstract class Projection implements Assignable {
 	}
 
 	public Projection toJson(String format) {
-		throw new UnsupportedOperationException("not implemented yet");
+		return new CompositeProjection("%s.toJson('%s')", this, new AtomicProjection(format));
+	}
+
+	public Projection toJson(Projection... projections) {
+		return new CompositeProjection("%s.toJson('%s')", this, projection(commaJoiner.join(projections)));
 	}
 
 	public Projection toLowerCase() {
