@@ -19,6 +19,7 @@ package com.github.raymanrt.orientqb.util;
 public class Joiner {
 
     public final static com.google.common.base.Joiner listJoiner = com.google.common.base.Joiner.on(", ");
+    public final static com.google.common.base.Joiner commaJoiner = com.google.common.base.Joiner.on(",");
     public final static com.google.common.base.Joiner oneSpaceJoiner = com.google.common.base.Joiner.on(" ");
     public final static com.google.common.base.Joiner andJoiner = com.google.common.base.Joiner.on(" " + Token.AND + " ");
     public final static com.google.common.base.Joiner orJoiner = com.google.common.base.Joiner.on(" " + Token.OR + " ");
