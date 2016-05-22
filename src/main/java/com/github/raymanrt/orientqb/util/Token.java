@@ -56,6 +56,7 @@ public class Token {
     public static final String TIMEOUT = "TIMEOUT";
     public static final String LOCK = "LOCK";
     public static final String PARALLEL = "PARALLEL";
+    public static final String RETURN = "RETURN";
 
     // Operators
     public static final String CONTAINS = "CONTAINS";

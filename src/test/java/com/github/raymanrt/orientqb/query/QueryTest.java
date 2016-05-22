@@ -20,10 +20,6 @@ import org.junit.Test;
 
 import static com.github.raymanrt.orientqb.query.Projection.ALL;
 import static com.github.raymanrt.orientqb.query.Projection.projection;
-import static com.github.raymanrt.orientqb.query.ProjectionFunction.expand;
-import static com.github.raymanrt.orientqb.query.ProjectionFunction.unionAll;
-import static com.github.raymanrt.orientqb.query.Target.nested;
-import static com.github.raymanrt.orientqb.query.Variable.variable;
 import static org.junit.Assert.assertEquals;
 
 public class QueryTest {
@@ -194,7 +190,7 @@ public class QueryTest {
 				.select("field")
 				.from("V")
 				.timeout(100);
-		assertEquals("SELECT field FROM V TIMEOUT 100 EXCEPTION", q.toString());
+		assertEquals("SELECT field FROM V TIMEOUT 100", q.toString());
 	}
 
 	@Test

@@ -12,7 +12,7 @@ It may be considered as an equivalent of [jOOQ](http://www.jooq.org/) for the Or
 In the past years it helped me a lot in writing OSQL without typos and without dealing to much with ugly String concatenations.
 Then I decided to share it with the community.
 
-For now it only supports SELECT statements, as defined in the last
+For now it only supports SELECT and DELETE statements, as defined in the last
 [documentation](http://www.orientechnologies.com/docs/last/).
 
 It has a very small footprint (the only external dependency is [guava](https://code.google.com/p/guava-libraries/) 18.0) and
@@ -34,7 +34,7 @@ You can include *orientqb* into your Maven project as a dependency:
 <dependency>
   <groupId>com.github.raymanrt</groupId>
   <artifactId>orientqb</artifactId>
-  <version>0.1.9</version>
+  <version>0.2.0</version>
 </dependency>
 ```
 
@@ -283,18 +283,31 @@ Other Query methods
 * LOCK (and locking strategies)
 * PARALLEL
 
+Other Query methods
+-------------------
+
+Since 0.2.0 version, the `DELETE` keyword has been implemented. Writing a `DELETE` statement is quite easy:
+
+```
+Delete delete = new Delete()
+        .from("Profile")
+        .where(projection("surname").toLowerCase().eq("unknown"));
+```
+
+`DELETE VERTEX` and `DELETE EDGE` statements will be released soon.
+
 OSQL Versions
 -------------
 
 *orientqb* supports always the lastest version of OSQL. The lastest version tested with OSQL 2.0 is 0.1.5, also if for many queries will work anyway.
 
-To be completed after 0.1.0 release
+To be completed after 0.2.0 release
 -----------------------------------
 
 In my spare time I'd like to add the following construct:
 
-* DELETE and UPDATE
-* TRAVERSE
+* UPDATE
+* MATCH and TRAVERSE
 * other OSQL commands
 
 Obviously some of my time will be spent in bug fixing, code cleaning and API optimizations, since the aim of the project

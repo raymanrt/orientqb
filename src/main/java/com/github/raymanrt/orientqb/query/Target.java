@@ -72,6 +72,10 @@ public class Target {
         return new Target(CLUSTER + cluster);
     }
 
+    public static Target index(String indexName) {
+        return new Target("index:" + indexName);
+    }
+
     public static Target indexValues(String indexName) {
         return new Target("indexvalues:" + indexName);
     }

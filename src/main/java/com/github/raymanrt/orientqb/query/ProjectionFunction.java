@@ -16,11 +16,11 @@
 
 package com.github.raymanrt.orientqb.query;
 
-import com.google.common.collect.Lists;
 import com.github.raymanrt.orientqb.query.projection.AtomicProjection;
 import com.github.raymanrt.orientqb.query.projection.CompositeProjection;
 import com.github.raymanrt.orientqb.util.Commons;
 import com.github.raymanrt.orientqb.util.Joiner;
+import com.google.common.collect.Lists;
 
 import java.text.SimpleDateFormat;
 import java.util.List;

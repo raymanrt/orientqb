@@ -16,7 +16,7 @@
 
 package com.github.raymanrt.orientqb.query;
 
-import com.github.raymanrt.orientqb.query.clause.CompositeClause;
+import com.github.raymanrt.orientqb.query.core.AbstractQuery;
 import com.github.raymanrt.orientqb.util.Commons;
 import com.github.raymanrt.orientqb.util.Joiner;
 import com.google.common.base.Optional;
@@ -29,51 +29,33 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import static com.github.raymanrt.orientqb.query.Projection.projection;
-import static com.github.raymanrt.orientqb.query.Target.target;
 import static com.github.raymanrt.orientqb.util.Token.FETCHPLAN;
 import static com.github.raymanrt.orientqb.util.Token.FROM;
 import static com.github.raymanrt.orientqb.util.Token.GROUP_BY;
 import static com.github.raymanrt.orientqb.util.Token.LET;
-import static com.github.raymanrt.orientqb.util.Token.LIMIT;
-import static com.github.raymanrt.orientqb.util.Token.LOCK;
 import static com.github.raymanrt.orientqb.util.Token.ORDER_BY;
-import static com.github.raymanrt.orientqb.util.Token.PARALLEL;
 import static com.github.raymanrt.orientqb.util.Token.SELECT;
 import static com.github.raymanrt.orientqb.util.Token.SKIP;
-import static com.github.raymanrt.orientqb.util.Token.TIMEOUT;
-import static com.github.raymanrt.orientqb.util.Token.WHERE;
 import static com.google.common.collect.Maps.newLinkedHashMap;
 import static com.google.common.collect.Sets.newLinkedHashSet;
 import static java.lang.String.format;
 
-public class Query implements Assignable {
+public class Query extends AbstractQuery implements Assignable {
 
 	private Set<Projection> projections = new LinkedHashSet<Projection>();
 	private boolean selectAll = false;
 
-	private Target target = Target.DEFAULT;
-
 	private Map<String, Assignable> letMap = newLinkedHashMap();
-
-	private Set<Clause> clauses = newLinkedHashSet();
 
 	private Set<Ordering> orderBy = newLinkedHashSet();
 
 	private Optional<Projection> groupBy = Optional.absent();
-
-	private Optional<String> limit = Optional.absent();
 
 	private Set<String> fetchPlan = newLinkedHashSet();
 
 	private int skipValue = 0;
 	private String skipVariable = "";
 
-	private Optional<Long> timeoutInMS = Optional.absent();
-	private Optional<TimeoutStrategy> timeoutStrategy = Optional.absent();
-
-	private Optional<LockingStrategy> lock = Optional.absent();
-
-	private boolean isParallel = false;
 
 	public Query select(Projection s) {
 		if(s.equals(Projection.ALL)) selectAll = true;
@@ -99,24 +81,22 @@ public class Query implements Assignable {
 	}
 
 	public Query fromEmpty() {
-		this.target = Target.EMPTY;
+		super.fromEmpty();
 		return this;
 	}
 
 	public Query from(Target target) {
-		this.target = target;
+		super.from(target);
 		return this;
 	}
 
 	public Query from(String target) {
-		this.target = target(target);
+		super.from(target);
 		return this;
 	}
 
 	public Query where(Clause clause) {
-		if(!clause.isEmpty()) {
-            clauses.add(clause);
-        }
+		super.where(clause);
 		return this;
 	}
 
@@ -141,12 +121,12 @@ public class Query implements Assignable {
 	}
 
 	public Query limit(int l) {
-		limit = Optional.of(Integer.toString(l));
+		super.limit(l);
 		return this;
 	}
 
 	public Query limit(String variable) {
-		limit = Optional.of(variable);
+		super.limit(variable);
 		return this;
 	}
 
@@ -181,51 +161,49 @@ public class Query implements Assignable {
 	}
 
 	public Query timeout(long timeoutInMS, TimeoutStrategy strategy) {
-		this.timeoutInMS = Optional.of(timeoutInMS);
-		this.timeoutStrategy = Optional.of(strategy);
+		super.timeout(timeoutInMS, strategy);
 		return this;
 	}
 
 	public Query timeout(long timeoutInMS) {
-		this.timeoutInMS = Optional.of(timeoutInMS);
-		this.timeoutStrategy = Optional.of(TimeoutStrategy.EXCEPTION);
+		super.timeout(timeoutInMS);
 		return this;
 	}
 
 	public Query lockRecord() {
-		lock = Optional.of(LockingStrategy.RECORD);
+		super.lock(LockingStrategy.RECORD);
 		return this;
 	}
 
 	public Query lockReset() {
-		lock = Optional.absent();
+		super.lockReset();
 		return this;
 	}
 
 	public Query lock(LockingStrategy strategy) {
-		lock = Optional.of(strategy);
+		super.lock(strategy);
 		return this;
 	}
 
 	public Query parallel() {
-		isParallel = true;
+		super.parallel();
 		return this;
 	}
 
-	public Query parallel(boolean isParallel) {
-		this.isParallel = isParallel;
+	public Query parallel(boolean parallel) {
+		super.parallel(parallel);
 		return this;
 	}
 
 	public String toString() {
 		String base = SELECT + " %s ";
 
-		if(!target.equals(Target.EMPTY)) {
+		if(!getTarget().equals(Target.EMPTY)) {
 			base +=  " " + FROM + " %s ";
 		}
 
 		String joinedProjections = joinProjections();
-		String query = format(base, joinedProjections, target);
+		String query = format(base, joinedProjections, getTarget());
 
 		query += joinLet();
 		query += joinWhere();
@@ -266,18 +244,6 @@ public class Query implements Assignable {
 		return "";
 	}
 
-	private String joinWhere() {
-		if(clauses.size() == 1) {
-			String flattenWhere = Joiner.andJoiner.join(clauses);
-			return " " + WHERE + " " + flattenWhere + " ";
-		}
-		if(clauses.size() > 1) {
-			CompositeClause and = new CompositeClause(Joiner.andJoiner, clauses.toArray(new Clause[]{}));
-			return " " + WHERE + " " + and.toString() + " ";
-		}
-		return "";
-	}
-
 	private String generateGroupBy() {
 		if(groupBy.isPresent()) {
 			return " " + GROUP_BY + " " + groupBy.get().getAssignment() + " ";
@@ -307,39 +273,11 @@ public class Query implements Assignable {
 		return "";
 	}
 
-	private String generateLimit() {
-		if(limit.isPresent()) {
-			return " " + LIMIT + " " + limit.get();
-		}
-		return "";
-
-	}
-
 	private String generateFetchPlan() {
 		if(fetchPlan.size() > 0) {
 			String fetchPlanString = Joiner.listJoiner.join(fetchPlan);
 			return " " + FETCHPLAN + " " + fetchPlanString + " ";
 		}
-		return "";
-	}
-
-	private String generateTimeout() {
-		String timeout = "";
-		if(timeoutInMS.isPresent())
-			timeout += " " + TIMEOUT + " " + timeoutInMS.get().toString() + " ";
-		if(timeoutStrategy.isPresent())
-			timeout += timeoutStrategy.get().toString() + " ";
-		return  timeout;
-	}
-
-	private String generateLock() {
-		if(lock.isPresent())
-			return " " + LOCK + " " + lock.get().toString() + " ";
-		return  "";
-	}
-
-	private String generateParallel() {
-		if(isParallel) return " " + PARALLEL + " ";
 		return "";
 	}
 

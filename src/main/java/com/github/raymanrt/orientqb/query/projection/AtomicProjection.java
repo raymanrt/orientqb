@@ -19,9 +19,6 @@ package com.github.raymanrt.orientqb.query.projection;
 import com.github.raymanrt.orientqb.query.Projection;
 import com.github.raymanrt.orientqb.util.Token;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class AtomicProjection extends Projection {
     private final String field;
 

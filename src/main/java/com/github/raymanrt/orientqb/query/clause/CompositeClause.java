@@ -16,14 +16,14 @@
 
 package com.github.raymanrt.orientqb.query.clause;
 
-import com.google.common.base.Joiner;
 import com.github.raymanrt.orientqb.query.Clause;
+import com.google.common.base.Joiner;
 
 import java.util.List;
 
+import static com.github.raymanrt.orientqb.util.Commons.whereToStringFunction;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.transform;
-import static com.github.raymanrt.orientqb.util.Commons.whereToStringFunction;
 
 public class CompositeClause extends Clause {
     private final Joiner joiner;
