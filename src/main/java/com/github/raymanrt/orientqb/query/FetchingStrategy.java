@@ -19,10 +19,12 @@ package com.github.raymanrt.orientqb.query;
 import com.github.raymanrt.orientqb.query.projection.AtomicProjection;
 
 public class FetchingStrategy {
+    public static Projection ALL_LEVELS = Projection.projection("[*]");
     public static int ONLY_CURRENT = 0;
     public static int UNLIMITED = -1;
     public static int EXCLUDE_CURRENT = -2;
 
+    private Projection levels;
     private Projection fieldPath;
     private int depthLevel;
 
@@ -36,7 +38,34 @@ public class FetchingStrategy {
         this.depthLevel = depthLevel;
     }
 
+    public FetchingStrategy(Projection levels, Projection fieldPath, int depthLevel) {
+        this.levels = levels;
+        this.fieldPath = fieldPath;
+        this.depthLevel = depthLevel;
+    }
+
+    public FetchingStrategy(Projection levels, String fieldName, int depthLevel) {
+        this.levels = levels;
+        this.fieldPath = new AtomicProjection(fieldName);
+        this.depthLevel = depthLevel;
+    }
+
+    public FetchingStrategy(String levelsName, Projection fieldPath, int depthLevel) {
+        this.levels = new AtomicProjection(levelsName);
+        this.fieldPath = fieldPath;
+        this.depthLevel = depthLevel;
+    }
+
+    public FetchingStrategy(String levelsName, String fieldName, int depthLevel) {
+        this.levels = new AtomicProjection(levelsName);
+        this.fieldPath = new AtomicProjection(fieldName);
+        this.depthLevel = depthLevel;
+    }
+
     public String toString() {
+        if (levels != null) {
+            return levels.toString() + fieldPath.toString() + ":" + Integer.toString(depthLevel);
+        }
         return fieldPath.toString() + ":" + Integer.toString(depthLevel);
     }
 

@@ -264,6 +264,11 @@ public class ProjectionFunction {
 		return new CompositeProjection("unionAll(%s)", Projection.projection(projectionsString));
 	}
 
+	public static Projection fetchPlan(FetchingStrategy... strategies) {
+		String projectionsString = Joiner.oneSpaceJoiner.join(strategies);
+		return new CompositeProjection("fetchPlan:%s", Projection.projection(projectionsString));
+	}
+
 	//// SPECIAL ////
 
 	public static Projection nested(Query query) {

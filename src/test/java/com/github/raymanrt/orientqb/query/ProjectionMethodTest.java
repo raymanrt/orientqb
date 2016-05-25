@@ -466,11 +466,11 @@ public class ProjectionMethodTest {
 		Projection p = projection(simpleField).toJson();
 		assertEquals("field.toJson()", p.toString());
 
-		try {
-			projection(simpleField).toJson("format");
-		} catch (UnsupportedOperationException ex) {
-			assertEquals("not implemented yet", ex.getMessage());
-		}
+		p = projection(simpleField).toJson("type");
+		assertEquals("field.toJson('type')", p.toString());
+
+		p = projection(simpleField).toJson(projection("version"), projection("rid"));
+		assertEquals("field.toJson('version,rid')", p.toString());
 	}
 
 	@Test
