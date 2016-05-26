@@ -18,6 +18,7 @@ package com.github.raymanrt.orientqb.query;
 
 import com.github.raymanrt.orientqb.query.clause.AtomicClause;
 import com.github.raymanrt.orientqb.query.clause.CustomFormatClause;
+import com.github.raymanrt.orientqb.query.fetchingstrategy.FetchingStrategy;
 import com.github.raymanrt.orientqb.query.projection.AtomicProjection;
 import com.github.raymanrt.orientqb.query.projection.CompositeProjection;
 import com.github.raymanrt.orientqb.util.Commons;
@@ -322,12 +323,18 @@ public abstract class Projection implements Assignable {
 		return new CompositeProjection("%s.toJson()", this);
 	}
 
-	public Projection toJson(String format) {
-		return new CompositeProjection("%s.toJson('%s')", this, new AtomicProjection(format));
+	public Projection toJson(JsonFormat ... formats) {
+		return new CompositeProjection("%s.toJson('%s')", this, projection(oneCommaJoiner.join(formats)));
 	}
 
-	public Projection toJson(Projection... projections) {
-		return new CompositeProjection("%s.toJson('%s')", this, projection(oneCommaJoiner.join(projections)));
+	public Projection toJson(FetchingStrategy strategy, JsonFormat ... formats) {
+		String str = "fetchPlan:" + strategy.toString();
+
+		if(formats.length > 0) {
+			str = oneCommaJoiner.join(str, oneCommaJoiner.join(formats));
+		}
+
+		return new CompositeProjection("%s.toJson('%s')", this, projection(str));
 	}
 
 	public Projection toLowerCase() {

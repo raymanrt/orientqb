@@ -17,6 +17,7 @@
 package com.github.raymanrt.orientqb.query;
 
 import com.github.raymanrt.orientqb.query.core.AbstractQuery;
+import com.github.raymanrt.orientqb.query.fetchingstrategy.FetchingStrategy;
 import com.github.raymanrt.orientqb.util.Commons;
 import com.github.raymanrt.orientqb.util.Joiner;
 import com.google.common.base.Optional;
@@ -131,7 +132,7 @@ public class Query extends AbstractQuery implements Assignable {
 	}
 
 	public Query fetchPlan(FetchingStrategy... strategies) {
-		for(Strategy strategy : strategies) {
+		for(FetchingStrategy strategy : strategies) {
 			fetchPlan.add(strategy.toString());
 		}
 		return this;

@@ -26,6 +26,7 @@ import static com.github.raymanrt.orientqb.query.ProjectionFunction.both;
 import static com.github.raymanrt.orientqb.query.ProjectionFunction.in;
 import static com.github.raymanrt.orientqb.query.ProjectionFunction.max;
 import static com.github.raymanrt.orientqb.query.ProjectionFunction.out;
+import static com.github.raymanrt.orientqb.query.Variable.thisRecord;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -413,7 +414,7 @@ public class ProjectionMethodTest {
 
 	@Test
 	public void removeTest() {
-		Projection p = out().dot(in()).remove(Variable.thisRecord());
+		Projection p = out().dot(in()).remove(thisRecord());
 		assertEquals("out().in().remove(@this)", p.toString());
 	}
 
@@ -461,16 +462,20 @@ public class ProjectionMethodTest {
 	}
 
 	@Test
+	/**
+	 * @see FetchingStrategyTest for more tests on FetchingStrategy use
+	 */
 	public void toJsonTest() {
 		String simpleField = "field";
 		Projection p = projection(simpleField).toJson();
 		assertEquals("field.toJson()", p.toString());
 
-		p = projection(simpleField).toJson("type");
+		p = projection(simpleField).toJson(JsonFormat.TYPE);
 		assertEquals("field.toJson('type')", p.toString());
 
-		p = projection(simpleField).toJson(projection("version"), projection("rid"));
+		p = projection(simpleField).toJson(JsonFormat.VERSION, JsonFormat.RID);
 		assertEquals("field.toJson('version,rid')", p.toString());
+
 	}
 
 	@Test

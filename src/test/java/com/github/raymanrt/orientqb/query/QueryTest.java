@@ -16,6 +16,8 @@
 
 package com.github.raymanrt.orientqb.query;
 
+import com.github.raymanrt.orientqb.query.fetchingstrategy.FetchingStrategy;
+import com.github.raymanrt.orientqb.query.fetchingstrategy.Level;
 import org.junit.Test;
 
 import static com.github.raymanrt.orientqb.query.Projection.ALL;
@@ -153,26 +155,30 @@ public class QueryTest {
 		Query q = new Query()
 				.select("field")
 				.from("V")
-				.fetchPlan(new FetchingStrategy(FetchingStrategy.ALL_LEVELS, ALL, FetchingStrategy.UNLIMITED));
+				.fetchPlan(new FetchingStrategy(Level.anyLevel(), ALL, FetchingStrategy.UNLIMITED));
 		assertEquals("SELECT field FROM V FETCHPLAN [*]*:-1", q.toString());
 
 		q = new Query()
 				.select("field")
 				.from("V")
 				.fetchPlan(new FetchingStrategy(ALL, FetchingStrategy.UNLIMITED))
-                .fetchPlan(new FetchingStrategy("[1]","field", FetchingStrategy.EXCLUDE_CURRENT));
+                .fetchPlan(new FetchingStrategy(Level.level(1), "field", FetchingStrategy.EXCLUDE_CURRENT));
 		assertEquals("SELECT field FROM V FETCHPLAN *:-1 [1]field:-2", q.toString());
 
 		q = new Query()
 				.select("field")
 				.from("V")
-				.fetchPlan(new FetchingStrategy(ALL, FetchingStrategy.UNLIMITED), new FetchingStrategy("field", FetchingStrategy.EXCLUDE_CURRENT), new FetchingStrategy("field", FetchingStrategy.EXCLUDE_CURRENT));
+				.fetchPlan(
+						new FetchingStrategy(ALL, FetchingStrategy.UNLIMITED),
+						new FetchingStrategy("field", FetchingStrategy.EXCLUDE_CURRENT),
+						new FetchingStrategy("field", FetchingStrategy.EXCLUDE_CURRENT)
+				);
 		assertEquals("SELECT field FROM V FETCHPLAN *:-1 field:-2", q.toString());
 
 		q = new Query()
 				.select("field")
 				.from("V")
-				.fetchPlan(new FetchingStrategy("[-5]",projection("field").dot(projection("name")), 10));
+				.fetchPlan(new FetchingStrategy(Level.level(-5), projection("field").dot(projection("name")), 10));
 		assertEquals("SELECT field FROM V FETCHPLAN [-5]field.name:10", q.toString());
 	}
 

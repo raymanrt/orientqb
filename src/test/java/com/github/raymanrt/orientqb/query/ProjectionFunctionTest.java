@@ -438,12 +438,6 @@ public class ProjectionFunctionTest {
 	}
 
 	@Test
-	public void fetchPlanTest() {
-		Projection p = fetchPlan(new FetchingStrategy("child",FetchingStrategy.UNLIMITED), new FetchingStrategy("parent",FetchingStrategy.EXCLUDE_CURRENT));
-		assertEquals("fetchPlan:child:-1 parent:-2", p.toString());
-	}
-
-	@Test
 	public void nestedTest() {
 
 		Query innerQuery = new Query()
