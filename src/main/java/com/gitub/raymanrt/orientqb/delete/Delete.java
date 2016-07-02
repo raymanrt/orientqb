@@ -43,12 +43,12 @@ public class Delete extends AbstractQuery {
     }
 
     public Delete from(Target target) {
-        super.from(target);
+        super.setTarget(target);
         return this;
     }
 
     public Delete from(String target) {
-        super.from(target);
+        super.setTarget(target);
         return this;
     }
 

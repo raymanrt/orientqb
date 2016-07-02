@@ -87,12 +87,12 @@ public class Query extends AbstractQuery implements Assignable {
 	}
 
 	public Query from(Target target) {
-		super.from(target);
+		super.setTarget(target);
 		return this;
 	}
 
 	public Query from(String target) {
-		super.from(target);
+		super.setTarget(target);
 		return this;
 	}
 
