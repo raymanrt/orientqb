@@ -65,6 +65,7 @@ public class Token {
     public static final String AND = "AND";
     public static final String OR = "OR";
     public static final String NOT = "NOT";
+    public static final String IN = "IN";
 
     public static final Set<String> tokens() {
         Set<String> tokens = Sets.newHashSet();

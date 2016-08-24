@@ -59,9 +59,10 @@ public enum Operator {
     NOT_DEFINED("%s IS NOT DEFINED"),
 
     NULL("%s IS " + Token.NULL),
-    NOT_NULL("%s IS " + Token.NOT + " " + Token.NULL)
+    NOT_NULL("%s IS " + Token.NOT + " " + Token.NULL),
 
-    ;
+    NOT_IN("%s " + Token.NOT + " " + Token.IN + " %s");
+//    NOT_IN_WITHOUT_PARENTHESIS("%s " + Token.NOT + " " + Token.IN + " %s");
 
 
     private final String format;

@@ -425,6 +425,10 @@ public abstract class Projection implements Assignable {
 		return new AtomicClause(this, Operator.IN, value);
 	}
 
+	public Clause notIn(Projection value) {
+		return new AtomicClause(this, Operator.NOT_IN, value);
+	}
+
 	public Clause contains(Projection projection) {
 		return new AtomicClause(this, Operator.CONTAINS, projection);
 	}

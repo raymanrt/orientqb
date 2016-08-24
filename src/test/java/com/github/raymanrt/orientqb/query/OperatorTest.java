@@ -143,6 +143,40 @@ public class OperatorTest {
 	}
 
 	@Test
+	public void notInTest() {
+		Clause c = clause("x", Operator.NOT_IN, "string");
+		assertEquals("x NOT IN 'string'", c.toString());
+		c = projection("x").notIn(value("string"));
+		assertEquals("x NOT IN 'string'", c.toString());
+
+		c = clause("x", Operator.NOT_IN, newArrayList("a", "b", "c"));
+		assertEquals("x NOT IN ['a', 'b', 'c']", c.toString());
+		c = projection("x").notIn(list("a", "b", "c"));
+		assertEquals("x NOT IN ['a', 'b', 'c']", c.toString());
+
+		c = clause("x", Operator.NOT_IN, newArrayList("a", 5, "c"));
+		assertEquals("x NOT IN ['a', 5, 'c']", c.toString());
+		c = projection("x").notIn(list("a", 5, "c"));
+		assertEquals("x NOT IN ['a', 5, 'c']", c.toString());
+
+		c = clause("x", Operator.NOT_IN, newArrayList(1));
+		assertEquals("x NOT IN [1]", c.toString());
+		c = projection("x").notIn(list(1));
+		assertEquals("x NOT IN [1]", c.toString());
+
+		c = clause("x", Operator.NOT_IN, ProjectionFunction.out("friends"));
+		assertEquals("x NOT IN out('friends')", c.toString());
+		c = projection("x").notIn(ProjectionFunction.out("friends"));
+		assertEquals("x NOT IN out('friends')", c.toString());
+
+		// #12: select from T where attr1="toto" AND attr2 NOT IN ['val1', 'val2']
+		c = clause("attr2", Operator.BETWEEN.NOT_IN, newArrayList("val1", "val2"));
+		assertEquals("attr2 NOT IN ['val1', 'val2']", c.toString());
+		c = projection("attr2").notIn(list("val1", "val2"));
+		assertEquals("attr2 NOT IN ['val1', 'val2']", c.toString());
+	}
+
+	@Test
 	public void containsTest() {
 		Clause c = projection("x").contains(value("name"));
 		assertEquals("x CONTAINS 'name'", c.toString());
