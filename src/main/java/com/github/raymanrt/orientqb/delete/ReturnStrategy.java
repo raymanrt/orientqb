@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gitub.raymanrt.orientqb.delete;
+package com.github.raymanrt.orientqb.delete;
 
 /**
  * Created by rayman on 29/04/16.

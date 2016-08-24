@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package com.gitub.raymanrt.orientqb.delete;
+package com.github.raymanrt.orientqb.delete;
 
+import com.github.raymanrt.orientqb.delete.Delete;
+import com.github.raymanrt.orientqb.delete.ReturnStrategy;
 import com.github.raymanrt.orientqb.query.LockingStrategy;
 import org.junit.Test;
 
