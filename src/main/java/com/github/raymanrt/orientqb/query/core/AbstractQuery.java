@@ -52,7 +52,7 @@ public abstract class AbstractQuery {
     private Optional<Long> timeoutInMS = Optional.absent();
     private Optional<TimeoutStrategy> timeoutStrategy = Optional.absent();
 
-    protected Target getTarget() {
+    public Target getTarget() {
         return target;
     }
 
@@ -61,17 +61,17 @@ public abstract class AbstractQuery {
         return this;
     }
 
-    protected AbstractQuery from(Target target) {
+    public AbstractQuery setTarget(Target target) {
         this.target = target;
         return this;
     }
 
-    protected AbstractQuery from(String target) {
+    public AbstractQuery setTarget(String target) {
         this.target = target(target);
         return this;
     }
 
-    protected AbstractQuery where(Clause clause) {
+    public AbstractQuery where(Clause clause) {
         if(!clause.isEmpty()) {
             clauses.add(clause);
         }
@@ -98,7 +98,7 @@ public abstract class AbstractQuery {
         return this;
     }
 
-    protected String joinWhere() {
+    public String joinWhere() {
         if(clauses.size() == 1) {
             String flattenWhere = Joiner.andJoiner.join(clauses);
             return " " + WHERE + " " + flattenWhere + " ";
