@@ -38,13 +38,17 @@ public class Clause {
         return new CompositeClause(Joiner.andJoiner, clauses);
     }
 
-    public static final Clause not(Clause clause) {
-        if(clause instanceof AtomicClause)
+    public static final Clause not(Clause clause, boolean forceParenthesis) {
+        if(clause instanceof AtomicClause && !forceParenthesis) {
             return new CustomFormatClause(NOT_WITHOUT_PARENTHESIS, clause);
+        }
 
         return new CustomFormatClause(NOT, clause);
     }
 
+    public static final Clause not(Clause clause) {
+        return not(clause, false);
+    }
     public static final Clause or(Clause ... clauses) {
         return new CompositeClause(Joiner.orJoiner, clauses);
     }

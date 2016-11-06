@@ -181,14 +181,23 @@ public class ClauseTest {
         assertEquals("NOT x = '5'", c.toString());
     }
 
-    @Test
-    public void notWithManyClausesTest() {
-        Clause c = not(and(
-                clause("x", Operator.EQ, 5),
-                clause("y", Operator.LE, 5)
-        ));
-        assertEquals("NOT (x = 5 AND y <= 5)", c.toString());
-    }
+	@Test
+	public void notWithManyClausesTest() {
+		Clause c = not(and(
+				clause("x", Operator.EQ, 5),
+				clause("y", Operator.LE, 5)
+		));
+		assertEquals("NOT (x = 5 AND y <= 5)", c.toString());
+	}
+
+	@Test
+	public void notForcingParenthesisTest() {
+		Clause c = not(
+				clause("x", Operator.LIKE, "%4WD%"),
+				true
+		);
+		assertEquals("NOT (x LIKE '%4WD%')", c.toString());
+	}
 
     @Test
     public void isEmptyTest() {
