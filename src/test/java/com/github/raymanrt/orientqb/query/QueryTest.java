@@ -234,4 +234,13 @@ public class QueryTest {
 		assertEquals("SELECT field FROM V PARALLEL", q.toString());
 	}
 
+	@Test
+	public void outQueryTest() {
+		Query q = new Query()
+				.select(ProjectionFunction.out("hasPermission"))
+				.from("V");
+
+		assertEquals("SELECT out('hasPermission') FROM V", q.toString());
+	}
+
 }
