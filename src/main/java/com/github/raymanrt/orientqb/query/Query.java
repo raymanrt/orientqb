@@ -44,7 +44,6 @@ import static java.lang.String.format;
 public class Query extends AbstractQuery implements Assignable {
 
 	private Set<Projection> projections = new LinkedHashSet<Projection>();
-	private boolean selectAll = false;
 
 	private Map<String, Assignable> letMap = newLinkedHashMap();
 
@@ -57,12 +56,10 @@ public class Query extends AbstractQuery implements Assignable {
 	private int skipValue = 0;
 	private String skipVariable = "";
 
-
-	public Query select(Projection s) {
-		if(s.equals(Projection.ALL)) selectAll = true;
-		if(!selectAll) projections.add(s);
-		return this;
-	}
+    public Query select(Projection s) {
+        projections.add(s);
+        return this;
+    }
 
 	public Query select(String s) {
 		this.select(projection(s));
@@ -232,7 +229,6 @@ public class Query extends AbstractQuery implements Assignable {
 
 	private String joinProjections() {
 		String flattenSelect = Joiner.listJoiner.join(projections);
-		if(selectAll) flattenSelect = Projection.ALL.getName();
 		return flattenSelect;
 	}
 

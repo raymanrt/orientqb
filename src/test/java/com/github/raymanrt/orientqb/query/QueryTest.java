@@ -39,6 +39,15 @@ public class QueryTest {
 		q.from("Class");
 		assertEquals("SELECT * FROM Class", q.toString());
 	}
+
+    @Test
+    public void allAndFieldQueryTest() {
+        Query q = new Query();
+        q.select(Projection.ALL);
+        q.select("field");
+        q.from("Class");
+        assertEquals("SELECT *, field FROM Class", q.toString());
+    }
 	
 	@Test
 	public void oneFieldQueryTest() {
