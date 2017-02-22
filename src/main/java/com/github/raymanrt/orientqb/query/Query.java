@@ -102,22 +102,29 @@ public class Query extends AbstractQuery implements Assignable {
 	}
 
 	public Query orderBy(String field) {
-		orderBy.add(new Ordering(projection(field), Ordering.Order.ASC));
-		return this;
+		return orderBy(projection(field));
 	}
 
 	public Query orderBy(Projection projection) {
-		orderBy.add(new Ordering(projection, Ordering.Order.ASC));
+		Ordering ordering = new Ordering(projection, Ordering.Order.ASC);
+		addOrderBy(ordering);
 		return this;
+	}
+
+	private void addOrderBy(Ordering ordering) {
+		if(orderBy.contains(ordering)) {
+			orderBy.remove(ordering);
+		}
+		orderBy.add(ordering);
 	}
 
 	public Query orderByDesc(String field) {
-		orderBy.add(new Ordering(projection(field), Ordering.Order.DESC));
-		return this;
+		return orderByDesc(projection(field));
 	}
 
 	public Query orderByDesc(Projection projection) {
-		orderBy.add(new Ordering(projection, Ordering.Order.DESC));
+		Ordering ordering = new Ordering(projection, Ordering.Order.DESC);
+		addOrderBy(ordering);
 		return this;
 	}
 

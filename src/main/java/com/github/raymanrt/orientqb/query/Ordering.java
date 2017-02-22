@@ -33,4 +33,24 @@ public class Ordering {
     public String toString() {
         return projection.toString() + " " + order.toString();
     }
+
+    public Projection getProjection() {
+        return this.projection;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.projection.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(!(other instanceof Ordering)) {
+            return false;
+        }
+
+        Ordering otherOrder = (Ordering) other;
+
+        return this.getProjection().toString().equals(otherOrder.getProjection().toString());
+    }
 }

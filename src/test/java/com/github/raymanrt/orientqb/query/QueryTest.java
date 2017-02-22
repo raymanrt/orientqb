@@ -243,4 +243,28 @@ public class QueryTest {
 		assertEquals("SELECT out('hasPermission') FROM V", q.toString());
 	}
 
+	@Test
+	public void orderByQueryTest() {
+		Ordering o1 = new Ordering(Projection.projection("f1"), Ordering.Order.ASC);
+		Ordering o2 = new Ordering(Projection.projection("f1"), Ordering.Order.DESC);
+		assertEquals(o1, o2);
+		assertEquals(o1.hashCode(), o2.hashCode());
+
+		Query q = new Query()
+				.select("field1")
+				.from("V")
+				.orderBy("field1")
+				.orderByDesc("field1");
+
+		assertEquals("SELECT field1 FROM V ORDER BY field1 DESC", q.toString());
+
+		q = new Query()
+				.select("field1")
+				.from("V")
+				.orderByDesc("field1")
+				.orderByDesc("field1");
+
+		assertEquals("SELECT field1 FROM V ORDER BY field1 DESC", q.toString());
+	}
+
 }
