@@ -16,8 +16,6 @@
 
 package com.github.raymanrt.orientqb.delete;
 
-import com.github.raymanrt.orientqb.delete.Delete;
-import com.github.raymanrt.orientqb.delete.ReturnStrategy;
 import com.github.raymanrt.orientqb.query.LockingStrategy;
 import org.junit.Test;
 
@@ -38,6 +36,28 @@ public class DeleteTest {
                 .where(projection("surname").toLowerCase().eq("unknown"));
 
         assertEquals("DELETE Profile WHERE surname.toLowerCase() = 'unknown'", delete.toString());
+
+    }
+
+    @Test
+    public void deleteVertexTest() {
+        Delete delete = new Delete()
+                .vertex()
+                .from("Profile")
+                .where(projection("surname").toLowerCase().eq("unknown"));
+
+        assertEquals("DELETE VERTEX Profile WHERE surname.toLowerCase() = 'unknown'", delete.toString());
+
+    }
+
+    @Test
+    public void deleteEdgeTest() {
+        Delete delete = new Delete()
+                .edge()
+                .from("Profile")
+                .where(projection("surname").toLowerCase().eq("unknown"));
+
+        assertEquals("DELETE EDGE Profile WHERE surname.toLowerCase() = 'unknown'", delete.toString());
 
     }
 

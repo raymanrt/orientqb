@@ -34,7 +34,14 @@ public class Delete extends AbstractQuery {
 
     public static final String INDEX = "index:";
 
+    private enum DeleteType {
+        NONE,
+        VERTEX,
+        EDGE
+    }
+
     private Optional<ReturnStrategy> returning = Optional.absent();
+    private DeleteType type = DeleteType.NONE;
 
 
     public Delete fromEmpty() {
@@ -59,7 +66,7 @@ public class Delete extends AbstractQuery {
 
 
     public String toString() {
-        String query = DELETE + " " + getTarget() + " ";
+        String query = DELETE + getType() + " " + getTarget() + " ";
 
         query += generateLock();
         query += generateReturning();
@@ -70,6 +77,13 @@ public class Delete extends AbstractQuery {
         query += generateTimeout();
 
         return Commons.clean(query);
+    }
+
+    private String getType() {
+        if(type.equals(DeleteType.NONE)) {
+            return "";
+        }
+        return " " + type.toString() + " ";
     }
 
     private String generateReturning() {
@@ -120,6 +134,16 @@ public class Delete extends AbstractQuery {
 
     public Delete timeout(long timeoutInMS) {
         super.timeout(timeoutInMS);
+        return this;
+    }
+
+    public Delete vertex() {
+        type = DeleteType.VERTEX;
+        return this;
+    }
+
+    public Delete edge() {
+        type = DeleteType.EDGE;
         return this;
     }
 }
