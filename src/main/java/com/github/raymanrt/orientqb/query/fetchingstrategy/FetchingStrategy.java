@@ -20,9 +20,9 @@ import com.github.raymanrt.orientqb.query.Projection;
 import com.github.raymanrt.orientqb.query.projection.AtomicProjection;
 
 public class FetchingStrategy {
-    public static int ONLY_CURRENT = 0;
-    public static int UNLIMITED = -1;
-    public static int EXCLUDE_CURRENT = -2;
+    public final static int ONLY_CURRENT = 0;
+    public final static int UNLIMITED = -1;
+    public final static int EXCLUDE_CURRENT = -2;
 
     private Level level;
     private Projection fieldPath;

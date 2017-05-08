@@ -20,6 +20,8 @@ import com.github.raymanrt.orientqb.query.projection.AtomicProjection;
 
 public class Variable {
 
+    private Variable() {};
+
     public static Projection variable(String name) {
         return new AtomicProjection("$" + name);
     }

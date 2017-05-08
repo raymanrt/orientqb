@@ -43,7 +43,7 @@ import static java.lang.String.format;
 
 public class Query extends AbstractQuery implements Assignable {
 
-	private Set<Projection> projections = new LinkedHashSet<Projection>();
+	private Set<Projection> projections = new LinkedHashSet<>();
 
 	private Map<String, Assignable> letMap = newLinkedHashMap();
 
@@ -78,6 +78,7 @@ public class Query extends AbstractQuery implements Assignable {
 		return this;
 	}
 
+	@Override
 	public Query fromEmpty() {
 		super.fromEmpty();
 		return this;
@@ -93,6 +94,7 @@ public class Query extends AbstractQuery implements Assignable {
 		return this;
 	}
 
+	@Override
 	public Query where(Clause clause) {
 		super.where(clause);
 		return this;
@@ -125,11 +127,13 @@ public class Query extends AbstractQuery implements Assignable {
 		return this;
 	}
 
+	@Override
 	public Query limit(int l) {
 		super.limit(l);
 		return this;
 	}
 
+	@Override
 	public Query limit(String variable) {
 		super.limit(variable);
 		return this;
@@ -167,11 +171,13 @@ public class Query extends AbstractQuery implements Assignable {
 		return this;
 	}
 
+	@Override
 	public Query timeout(long timeoutInMS, TimeoutStrategy strategy) {
 		super.timeout(timeoutInMS, strategy);
 		return this;
 	}
 
+	@Override
 	public Query timeout(long timeoutInMS) {
 		super.timeout(timeoutInMS);
 		return this;
@@ -182,21 +188,25 @@ public class Query extends AbstractQuery implements Assignable {
 		return this;
 	}
 
+	@Override
 	public Query lockReset() {
 		super.lockReset();
 		return this;
 	}
 
+	@Override
 	public Query lock(LockingStrategy strategy) {
 		super.lock(strategy);
 		return this;
 	}
 
+	@Override
 	public Query parallel() {
 		super.parallel();
 		return this;
 	}
 
+	@Override
 	public Query parallel(boolean parallel) {
 		super.parallel(parallel);
 		return this;
@@ -228,8 +238,7 @@ public class Query extends AbstractQuery implements Assignable {
 	}
 
 	private String joinProjections() {
-		String flattenSelect = Joiner.listJoiner.join(projections);
-		return flattenSelect;
+		return Joiner.listJoiner.join(projections);
 	}
 
 	private String joinLet() {
@@ -258,11 +267,11 @@ public class Query extends AbstractQuery implements Assignable {
 	}
 
 	private String joinOrderBy() {
-		if(orderBy.size() > 0) {
-			String flattenOrderBy = Joiner.listJoiner.join(orderBy);
-			return " " + ORDER_BY + " " + flattenOrderBy + " ";
+		if(orderBy.isEmpty()) {
+			return "";
 		}
-		return "";
+		String flattenOrderBy = Joiner.listJoiner.join(orderBy);
+		return " " + ORDER_BY + " " + flattenOrderBy + " ";
 	}
 
 	private String generateSkip() {
@@ -280,11 +289,11 @@ public class Query extends AbstractQuery implements Assignable {
 	}
 
 	private String generateFetchPlan() {
-		if(fetchPlan.size() > 0) {
-			String fetchPlanString = Joiner.oneSpaceJoiner.join(fetchPlan);
-			return " " + FETCHPLAN + " " + fetchPlanString + " ";
+		if(fetchPlan.isEmpty()) {
+			return "";
 		}
-		return "";
+		String fetchPlanString = Joiner.oneSpaceJoiner.join(fetchPlan);
+		return " " + FETCHPLAN + " " + fetchPlanString + " ";
 	}
 
 	@Override

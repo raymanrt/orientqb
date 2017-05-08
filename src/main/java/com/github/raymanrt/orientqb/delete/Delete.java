@@ -44,6 +44,7 @@ public class Delete extends AbstractQuery {
     private DeleteType type = DeleteType.NONE;
 
 
+    @Override
     public Delete fromEmpty() {
         super.fromEmpty();
         return this;
@@ -59,6 +60,7 @@ public class Delete extends AbstractQuery {
         return this;
     }
 
+    @Override
     public Delete where(Clause clause) {
         super.where(clause);
         return this;
@@ -97,11 +99,13 @@ public class Delete extends AbstractQuery {
         return this;
     }
 
+    @Override
     public Delete lockReset() {
         super.lockReset();
         return this;
     }
 
+    @Override
     public Delete lock(LockingStrategy strategy) {
         super.lock(strategy);
         return this;
@@ -117,21 +121,25 @@ public class Delete extends AbstractQuery {
         return this;
     }
 
+    @Override
     public Delete limit(int l) {
         super.limit(l);
         return this;
     }
 
+    @Override
     public Delete limit(String variable) {
         super.limit(variable);
         return this;
     }
 
+    @Override
     public Delete timeout(long timeoutInMS, TimeoutStrategy strategy) {
         super.timeout(timeoutInMS, strategy);
         return this;
     }
 
+    @Override
     public Delete timeout(long timeoutInMS) {
         super.timeout(timeoutInMS);
         return this;

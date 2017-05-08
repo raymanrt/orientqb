@@ -31,6 +31,8 @@ import static com.google.common.collect.Lists.transform;
 
 public class ProjectionFunction {
 
+	private ProjectionFunction() {};
+
 	// TODO: only in WHERE clause
 	public static Projection column(int index) {
 		return new CompositeProjection("column(%s)", Projection.value(index));
@@ -120,8 +122,8 @@ public class ProjectionFunction {
 	 * @return
 	 */
 	public static Projection format(String format, Projection... projections) {
-		format = escape(format);
-		return new CompositeProjection("format('" + format + "', %s)", Projection.projection(Joiner.listJoiner.join(projections)));
+		String escapedFormat = escape(format);
+		return new CompositeProjection("format('" + escapedFormat + "', %s)", Projection.projection(Joiner.listJoiner.join(projections)));
 	}
 
 	private static String escape(String format) {

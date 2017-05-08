@@ -24,13 +24,13 @@ public class Target {
     public static final Target DEFAULT = new Target("V");
     public static final String CLUSTER = "cluster:";
 
-    private final String target;
+    private final String name;
 
-    public Target(String target) {
-        if (shouldBeEscaped(target)) {
-            this.target = "`" + target + "`";
+    public Target(String name) {
+        if (shouldBeEscaped(name)) {
+            this.name = "`" + name + "`";
         } else {
-            this.target = target;
+            this.name = name;
         }
     }
 
@@ -93,6 +93,6 @@ public class Target {
     }
 
     public String toString() {
-        return this.target;
+        return this.name;
     }
 }

@@ -30,6 +30,7 @@ public class CompositeFetchingStrategy extends FetchingStrategy {
         this.strategies = strategies;
     }
 
+    @Override
     public String toString() {
         return Joiner.oneSpaceJoiner.join(strategies);
     }

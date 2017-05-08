@@ -31,6 +31,7 @@ public class CustomFormatClause extends Clause {
         this.clauses = clauses;
     }
 
+    @Override
     public String toString() {
         return format(operator.getFormat(), clauses);
     }

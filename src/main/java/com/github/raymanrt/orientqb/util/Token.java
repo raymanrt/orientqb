@@ -23,6 +23,8 @@ import java.util.Set;
 
 public class Token {
 
+    private Token() {};
+
     public static final String SELECT = "SELECT";
     public static final String TRAVERSE = "TRAVERSE";
     public static final String INSERT = "INSERT";

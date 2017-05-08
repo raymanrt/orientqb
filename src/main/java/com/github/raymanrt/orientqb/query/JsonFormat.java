@@ -37,6 +37,7 @@ public enum JsonFormat {
         this.format = format;
     }
 
+    @Override
     public String toString() {
         return format;
     }

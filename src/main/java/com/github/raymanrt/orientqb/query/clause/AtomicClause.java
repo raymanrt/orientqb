@@ -41,6 +41,7 @@ public class AtomicClause extends Clause {
         this.value = value;
     }
 
+    @Override
     public String toString() {
         String valueString = Commons.cast(value);
         if(value instanceof Assignable) {

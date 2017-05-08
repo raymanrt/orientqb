@@ -34,6 +34,7 @@ public class CompositeClause extends Clause {
         this.clauses = clauses;
     }
 
+    @Override
     public String toString() {
         List<String> clausesList = transform(newArrayList(clauses), whereToStringFunction);
         return joiner.join(clausesList);

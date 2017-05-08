@@ -21,6 +21,8 @@ package com.github.raymanrt.orientqb.query.fetchingstrategy;
  */
 public class Level {
 
+    private Level() {};
+
     private static class AtomicLevel extends Level {
         private final int level;
 

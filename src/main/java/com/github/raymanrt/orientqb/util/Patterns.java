@@ -19,6 +19,9 @@ package com.github.raymanrt.orientqb.util;
 import java.util.regex.Pattern;
 
 public class Patterns {
+
+    private Patterns() {};
+
     public static final Pattern IDENTIFIER = Pattern.compile("([a-zA-Z_]+|[*])");
     public static final CharSequence WHITESPACE = " ";
     static final Pattern manyWhiteSpaces = Pattern.compile("\\s+");

@@ -29,6 +29,8 @@ import static com.google.common.collect.Lists.newArrayList;
 
 public class Commons {
 
+    private Commons() {};
+
     public static final Function<Clause, String> whereToStringFunction = new Function<Clause, String>() {
         @Override
         public String apply(Clause input) {

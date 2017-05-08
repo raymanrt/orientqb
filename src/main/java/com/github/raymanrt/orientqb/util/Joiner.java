@@ -18,6 +18,8 @@ package com.github.raymanrt.orientqb.util;
 
 public class Joiner {
 
+    private Joiner() {};
+
     public final static com.google.common.base.Joiner listJoiner = com.google.common.base.Joiner.on(", ");
     public final static com.google.common.base.Joiner oneCommaJoiner = com.google.common.base.Joiner.on(",");
     public final static com.google.common.base.Joiner oneSpaceJoiner = com.google.common.base.Joiner.on(" ");
