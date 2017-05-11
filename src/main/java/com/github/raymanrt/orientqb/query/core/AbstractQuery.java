@@ -21,12 +21,12 @@ import com.github.raymanrt.orientqb.query.LockingStrategy;
 import com.github.raymanrt.orientqb.query.Target;
 import com.github.raymanrt.orientqb.query.TimeoutStrategy;
 import com.github.raymanrt.orientqb.query.clause.CompositeClause;
-import com.github.raymanrt.orientqb.util.Joiner;
 import com.google.common.base.Optional;
 
 import java.util.Set;
 
 import static com.github.raymanrt.orientqb.query.Target.target;
+import static com.github.raymanrt.orientqb.util.Joiner.andJoiner;
 import static com.github.raymanrt.orientqb.util.Token.LIMIT;
 import static com.github.raymanrt.orientqb.util.Token.LOCK;
 import static com.github.raymanrt.orientqb.util.Token.PARALLEL;
@@ -100,24 +100,45 @@ public abstract class AbstractQuery {
 
     public String joinWhere() {
         if(clauses.size() == 1) {
-            String flattenWhere = Joiner.andJoiner.join(clauses);
-            return " " + WHERE + " " + flattenWhere + " ";
+            String flattenWhere = andJoiner.join(clauses);
+            return new StringBuilder(" ")
+                    .append(WHERE)
+                    .append(" ")
+                    .append(flattenWhere)
+                    .append(" ")
+                    .toString();
         }
         if(clauses.size() > 1) {
-            CompositeClause and = new CompositeClause(Joiner.andJoiner, clauses.toArray(new Clause[]{}));
-            return " " + WHERE + " " + and.toString() + " ";
+            CompositeClause and = new CompositeClause(andJoiner, clauses.toArray(new Clause[]{}));
+            return new StringBuilder(" ")
+                    .append(WHERE)
+                    .append(" ")
+                    .append(and)
+                    .append(" ")
+                    .toString();
         }
         return "";
     }
 
     protected String generateLock() {
-        if(lock.isPresent())
-            return " " + LOCK + " " + lock.get().toString() + " ";
+        if(lock.isPresent()) {
+            return new StringBuilder(" ")
+                    .append(LOCK)
+                    .append(" ")
+                    .append(lock.get())
+                    .append(" ")
+                    .toString();
+        }
         return  "";
     }
 
     protected String generateParallel() {
-        if(isParallel) return " " + PARALLEL + " ";
+        if(isParallel) {
+            return new StringBuilder(" ")
+                    .append(PARALLEL)
+                    .append(" ")
+                    .toString();
+        }
         return "";
     }
 
@@ -133,7 +154,11 @@ public abstract class AbstractQuery {
 
     protected String generateLimit() {
         if(limit.isPresent()) {
-            return " " + LIMIT + " " + limit.get();
+            return new StringBuilder(" ")
+                    .append(LIMIT)
+                    .append(" ")
+                    .append(limit.get())
+                    .toString();
         }
         return "";
 
@@ -151,11 +176,18 @@ public abstract class AbstractQuery {
     }
 
     protected String generateTimeout() {
-        String timeout = "";
-        if(timeoutInMS.isPresent())
-            timeout += " " + TIMEOUT + " " + timeoutInMS.get().toString() + " ";
-        if(timeoutStrategy.isPresent())
-            timeout += timeoutStrategy.get().toString() + " ";
-        return  timeout;
+        StringBuilder timeout = new StringBuilder("");
+        if(timeoutInMS.isPresent()) {
+            timeout.append(" ")
+                    .append(TIMEOUT)
+                    .append(" ")
+                    .append(timeoutInMS.get())
+                    .append(" ");
+        }
+        if(timeoutStrategy.isPresent()) {
+            timeout.append(timeoutStrategy.get())
+                    .append(" ");
+        }
+        return  timeout.toString();
     }
 }

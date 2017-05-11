@@ -19,13 +19,18 @@ package com.github.raymanrt.orientqb.query;
 import com.github.raymanrt.orientqb.query.projection.AtomicProjection;
 import com.github.raymanrt.orientqb.query.projection.CompositeProjection;
 import com.github.raymanrt.orientqb.util.Commons;
-import com.github.raymanrt.orientqb.util.Joiner;
 import com.google.common.collect.Lists;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.TimeZone;
 
+import static com.github.raymanrt.orientqb.query.Projection.projection;
+import static com.github.raymanrt.orientqb.util.Commons.cast;
+import static com.github.raymanrt.orientqb.util.Commons.joinStrings;
+import static com.github.raymanrt.orientqb.util.Commons.toStringFunction;
+import static com.github.raymanrt.orientqb.util.Joiner.j;
+import static com.github.raymanrt.orientqb.util.Joiner.listJoiner;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.transform;
 
@@ -41,21 +46,21 @@ public class ProjectionFunction {
 	public static Projection avg(Projection firstProjection, Projection... projections) {
 		List<Projection> allProjections = newArrayList(projections);
 		allProjections.add(0, firstProjection);
-		String projectionsString = Joiner.listJoiner.join(transform(newArrayList(allProjections), Commons.toStringFunction));
-		return new CompositeProjection("avg(%s)", Projection.projection(projectionsString));
+		String projectionsString = listJoiner.join(transform(newArrayList(allProjections), toStringFunction));
+		return new CompositeProjection("avg(%s)", projection(projectionsString));
 	}
 
 	public static Projection both(String ... labels) {
-		return new CompositeProjection("both(%s)", Projection.projection(Commons.joinStrings(labels)));
+		return new CompositeProjection("both(%s)", projection(joinStrings(labels)));
 	}
 
 	public static Projection bothE(String ... labels) {
-		return new CompositeProjection("bothE(%s)", Projection.projection(Commons.joinStrings(labels)));
+		return new CompositeProjection("bothE(%s)", projection(joinStrings(labels)));
 	}
 
 	public static Projection coalesce(Projection... projections) {
-		String projectionsString = Joiner.listJoiner.join(transform(newArrayList(projections), Commons.toStringFunction));
-		return new CompositeProjection("coalesce(%s)", Projection.projection(projectionsString));
+		String projectionsString = listJoiner.join(transform(newArrayList(projections), toStringFunction));
+		return new CompositeProjection("coalesce(%s)", projection(projectionsString));
 	}
 
 	public static Projection count(Projection projection) {
@@ -83,19 +88,19 @@ public class ProjectionFunction {
 	public static Projection difference(Projection firstProjection, Projection... projections) {
 		List<Projection> allProjections = newArrayList(projections);
 		allProjections.add(0, firstProjection);
-		String projectionsString = Joiner.listJoiner.join(transform(newArrayList(allProjections), Commons.toStringFunction));
-		return new CompositeProjection("difference(%s)", Projection.projection(projectionsString));
+		String projectionsString = listJoiner.join(transform(newArrayList(allProjections), toStringFunction));
+		return new CompositeProjection("difference(%s)", projection(projectionsString));
 	}
 
 	public static Projection dijkstra(Projection source, Projection destination, String weightEdgeFieldName) {
-		String projectionsString = Joiner.listJoiner.join(transform(Lists.newArrayList(source, destination, Commons.cast(weightEdgeFieldName)), Commons.toStringFunction));
-		return new CompositeProjection("dijkstra(%s)", Projection.projection(projectionsString));
+		String projectionsString = listJoiner.join(transform(Lists.newArrayList(source, destination, cast(weightEdgeFieldName)), toStringFunction));
+		return new CompositeProjection("dijkstra(%s)", projection(projectionsString));
 	}
 
 	public static Projection dijkstra(Projection source, Projection destination, String weightEdgeFieldName, Direction direction) {
-		List<Object> arguments = Lists.newArrayList(source, destination, Commons.cast(weightEdgeFieldName), Commons.cast(direction.toString()));
-		String projectionsString = Joiner.listJoiner.join(transform(arguments, Commons.toStringFunction));
-		return new CompositeProjection("dijkstra(%s)", Projection.projection(projectionsString));
+		List<Object> arguments = Lists.newArrayList(source, destination, cast(weightEdgeFieldName), cast(direction.toString()));
+		String projectionsString = listJoiner.join(transform(arguments, toStringFunction));
+		return new CompositeProjection("dijkstra(%s)", projection(projectionsString));
 	}
 
 	public static Projection distance(Projection latPoint1, Projection lonPoint1, Projection latPoint2, Projection lonPoint2) {
@@ -107,7 +112,7 @@ public class ProjectionFunction {
 	}
 
 	public static Projection eval(String expression) {
-		return new CompositeProjection("eval('%s')", Projection.projection(expression));
+		return new CompositeProjection("eval('%s')", projection(expression));
 	}
 
 	public static Projection expand(Projection projection) {
@@ -122,8 +127,10 @@ public class ProjectionFunction {
 	 * @return
 	 */
 	public static Projection format(String format, Projection... projections) {
-		String escapedFormat = escape(format);
-		return new CompositeProjection("format('" + escapedFormat + "', %s)", Projection.projection(Joiner.listJoiner.join(projections)));
+		String escapedFormat = j.join("format('",
+				escape(format),
+				"', %s)");
+		return new CompositeProjection(escapedFormat , projection(listJoiner.join(projections)));
 	}
 
 	private static String escape(String format) {
@@ -137,20 +144,21 @@ public class ProjectionFunction {
 	// WONTFIX: flatten is deprecated, why you should use it?
 
 	public static Projection gremlin(String gremlin) {
-		return new CompositeProjection("gremlin(%s)", Projection.projection(Commons.cast(gremlin)));
+		return new CompositeProjection("gremlin(%s)", projection(cast(gremlin)));
 	}
 
 	public static Projection ifnull(Object defaultValue, Projection... projections) {
-		String projectionString = Joiner.listJoiner.join(transform(newArrayList(projections), Commons.toStringFunction));
-		return new CompositeProjection("ifnull(%s, " + Commons.cast(defaultValue) +")", Projection.projection(projectionString));
+		String ifNullDefaultValue = j.join("ifnull(%s, ", cast(defaultValue), ")");
+		String projectionString = listJoiner.join(transform(newArrayList(projections), toStringFunction));
+		return new CompositeProjection(ifNullDefaultValue, projection(projectionString));
 	}
 
 	public static Projection in(String ... labels) {
-		return new CompositeProjection("in(%s)", Projection.projection(Commons.joinStrings(labels)));
+		return new CompositeProjection("in(%s)", projection(joinStrings(labels)));
 	}
 
 	public static Projection inE(String ... labels) {
-		return new CompositeProjection("inE(%s)", Projection.projection(Commons.joinStrings(labels)));
+		return new CompositeProjection("inE(%s)", projection(joinStrings(labels)));
 	}
 
 	public static Projection inV() {
@@ -160,8 +168,8 @@ public class ProjectionFunction {
 	public static Projection intersect(Projection firstProjection, Projection... projections) {
 		List<Projection> allProjections = newArrayList(projections);
 		allProjections.add(0, firstProjection);
-		String projectionsString = Joiner.listJoiner.join(transform(newArrayList(allProjections), Commons.toStringFunction));
-		return new CompositeProjection("intersect(%s)", Projection.projection(projectionsString));
+		String projectionsString = listJoiner.join(transform(newArrayList(allProjections), toStringFunction));
+		return new CompositeProjection("intersect(%s)", projection(projectionsString));
 	}
 
 	public static Projection list(Projection projection) {
@@ -174,23 +182,23 @@ public class ProjectionFunction {
 	public static Projection max(Projection firstProjection, Projection... projections) {
 		List<Projection> allProjections = newArrayList(projections);
 		allProjections.add(0, firstProjection);
-		String projectionsString = Joiner.listJoiner.join(transform(newArrayList(allProjections), Commons.toStringFunction));
-		return new CompositeProjection("max(%s)", Projection.projection(projectionsString));
+		String projectionsString = listJoiner.join(transform(newArrayList(allProjections), toStringFunction));
+		return new CompositeProjection("max(%s)", projection(projectionsString));
 	}
 
 	public static Projection min(Projection firstProjection, Projection... projections) {
 		List<Projection> allProjections = newArrayList(projections);
 		allProjections.add(0, firstProjection);
-		String projectionsString = Joiner.listJoiner.join(transform(newArrayList(allProjections), Commons.toStringFunction));
-		return new CompositeProjection("min(%s)", Projection.projection(projectionsString));
+		String projectionsString = listJoiner.join(transform(newArrayList(allProjections), toStringFunction));
+		return new CompositeProjection("min(%s)", projection(projectionsString));
 	}
 
 	public static Projection out(String ... labels) {
-		return new CompositeProjection("out(%s)", Projection.projection(Commons.joinStrings(labels)));
+		return new CompositeProjection("out(%s)", projection(joinStrings(labels)));
 	}
 
 	public static Projection outE(String ... labels) {
-		return new CompositeProjection("outE(%s)", Projection.projection(Commons.joinStrings(labels)));
+		return new CompositeProjection("outE(%s)", projection(joinStrings(labels)));
 	}
 
 	public static Projection outV() {
@@ -202,21 +210,21 @@ public class ProjectionFunction {
 	}
 
 	public static Projection shortestPath(Projection source, Projection destination) {
-		String projectionsString = Joiner.listJoiner.join(transform(newArrayList(source, destination), Commons.toStringFunction));
-		return new CompositeProjection("shortestPath(%s)", Projection.projection(projectionsString));
+		String projectionsString = listJoiner.join(transform(newArrayList(source, destination), toStringFunction));
+		return new CompositeProjection("shortestPath(%s)", projection(projectionsString));
 	}
 
 	public static Projection shortestPath(Projection source, Projection destination, Direction direction) {
-		Projection directionAsProjection = Projection.projection("'" + direction.toString() + "'");
-		String arguments = Joiner.listJoiner.join(transform(newArrayList(source, destination, directionAsProjection), Commons.toStringFunction));
-		return new CompositeProjection("shortestPath(%s)", Projection.projection(arguments));
+		Projection directionAsProjection = projection(j.join("'", direction.toString(), "'"));
+		String arguments = listJoiner.join(transform(newArrayList(source, destination, directionAsProjection), toStringFunction));
+		return new CompositeProjection("shortestPath(%s)", projection(arguments));
 	}
 
 	public static Projection sum(Projection firstProjection, Projection... projections) {
 		List<Projection> allProjections = newArrayList(projections);
 		allProjections.add(0, firstProjection);
-		String projectionsString = Joiner.listJoiner.join(transform(newArrayList(allProjections), Commons.toStringFunction));
-		return new CompositeProjection("sum(%s)", Projection.projection(projectionsString));
+		String projectionsString = listJoiner.join(transform(newArrayList(allProjections), toStringFunction));
+		return new CompositeProjection("sum(%s)", projection(projectionsString));
 	}
 
 	public static Projection sysdate() {
@@ -228,8 +236,8 @@ public class ProjectionFunction {
 	}
 
 	public static Projection sysdate(String format, TimeZone timezone) {
-		String projectionsString = Joiner.listJoiner.join(transform(newArrayList(format, timezone.getID()), Commons.singleQuoteFunction));
-		return new CompositeProjection("sysdate(%s)", Projection.projection(projectionsString));
+		String projectionsString = listJoiner.join(transform(newArrayList(format, timezone.getID()), Commons.singleQuoteFunction));
+		return new CompositeProjection("sysdate(%s)", projection(projectionsString));
 	}
 
 	public static Projection traversedElement(int index) {
@@ -237,8 +245,8 @@ public class ProjectionFunction {
 	}
 
 	public static Projection traversedElement(int index, int items) {
-		String projectionString = Joiner.listJoiner.join(transform(newArrayList(index, items), Commons.toStringFunction));
-		return new CompositeProjection("traversedElement(%s)", Projection.projection(projectionString));
+		String projectionString = listJoiner.join(transform(newArrayList(index, items), toStringFunction));
+		return new CompositeProjection("traversedElement(%s)", projection(projectionString));
 	}
 
 	public static Projection traversedEdge(int index) {
@@ -246,8 +254,8 @@ public class ProjectionFunction {
 	}
 
 	public static Projection traversedEdge(int index, int items) {
-		String projectionString = Joiner.listJoiner.join(transform(newArrayList(index, items), Commons.toStringFunction));
-		return new CompositeProjection("traversedEdge(%s)", Projection.projection(projectionString));
+		String projectionString = listJoiner.join(transform(newArrayList(index, items), toStringFunction));
+		return new CompositeProjection("traversedEdge(%s)", projection(projectionString));
 	}
 
 	public static Projection traversedVertex(int index) {
@@ -255,21 +263,21 @@ public class ProjectionFunction {
 	}
 
 	public static Projection traversedVertex(int index, int items) {
-		String projectionString = Joiner.listJoiner.join(transform(newArrayList(index, items), Commons.toStringFunction));
-		return new CompositeProjection("traversedVertex(%s)", Projection.projection(projectionString));
+		String projectionString = listJoiner.join(transform(newArrayList(index, items), toStringFunction));
+		return new CompositeProjection("traversedVertex(%s)", projection(projectionString));
 	}
 
 	public static Projection unionAll(Projection firstProjection, Projection... projections) {
 		List<Projection> allProjections = newArrayList(projections);
 		allProjections.add(0, firstProjection);
-		String projectionsString = Joiner.listJoiner.join(transform(newArrayList(allProjections), Commons.toStringFunction));
-		return new CompositeProjection("unionAll(%s)", Projection.projection(projectionsString));
+		String projectionsString = listJoiner.join(transform(newArrayList(allProjections), toStringFunction));
+		return new CompositeProjection("unionAll(%s)", projection(projectionsString));
 	}
 
 	//// SPECIAL ////
 
 	public static Projection nested(Query query) {
-		return new CompositeProjection("( %s )", Projection.projection(query.toString()));
+		return new CompositeProjection("( %s )", projection(query.toString()));
 	}
 
 	//// ONLY IN WHERE ////
@@ -285,7 +293,7 @@ public class ProjectionFunction {
 		List<Projection> allProjections = newArrayList(projections);
 		allProjections.add(0, secondProjection);
 		allProjections.add(0, firstProjection);
-		String projectionsString = Joiner.listJoiner.join(transform(newArrayList(allProjections), Commons.toStringFunction));
-		return new CompositeProjection("[%s]", Projection.projection(projectionsString));
+		String projectionsString = listJoiner.join(transform(newArrayList(allProjections), toStringFunction));
+		return new CompositeProjection("[%s]", projection(projectionsString));
 	}
 }

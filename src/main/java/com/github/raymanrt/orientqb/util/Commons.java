@@ -24,6 +24,8 @@ import com.google.common.collect.Lists;
 import java.util.Collection;
 import java.util.List;
 
+import static com.github.raymanrt.orientqb.util.Joiner.j;
+import static com.github.raymanrt.orientqb.util.Joiner.listJoiner;
 import static com.google.common.collect.Collections2.transform;
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -36,7 +38,7 @@ public class Commons {
         public String apply(Clause input) {
             String string = input.toString();
             if(input instanceof CompositeClause)
-                string = "( " + string + " )";
+                string = j.join("( ", string, " )");
             return string;
         }
     };
@@ -75,19 +77,19 @@ public class Commons {
     public static String joinStrings(String ... strings) {
         List<String> tokens = newArrayList(strings);
         tokens = Lists.transform(tokens, singleQuoteFunction);
-        return Joiner.listJoiner.join(tokens);
+        return listJoiner.join(tokens);
     }
 
     public static String singleQuote(String input) {
-        return "'" + input.replace("'", "\\'") + "'";
+        return j.join("'", input.replace("'", "\\'"), "'");
     }
 
     public static String collectionToString(Collection<Object> collection) {
-        return "[" + Joiner.listJoiner.join(collection) + "]";
+        return j.join("[", listJoiner.join(collection), "]");
     }
 
     public static String arrayToString(Object ... array) {
-        return "[" + Joiner.listJoiner.join(array) + "]";
+        return j.join("[", listJoiner.join(array), "]");
     }
 
     public static String clean(String query) {

@@ -16,6 +16,8 @@
 
 package com.github.raymanrt.orientqb.query.fetchingstrategy;
 
+import static com.github.raymanrt.orientqb.util.Joiner.j;
+
 /**
  * Created by rayman on 25/05/16.
  */
@@ -31,7 +33,7 @@ public class Level {
         }
 
         public String toString() {
-            return "[" + level + "]";
+            return j.join("[", level, "]");
         }
     }
 
@@ -46,7 +48,9 @@ public class Level {
         }
 
         public String toString() {
-            return "[" + fromLevel + "-" + toLevel + "]";
+            return j.join("[",
+                    fromLevel, "-", toLevel,
+                    "]");
         }
     }
 

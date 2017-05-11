@@ -19,23 +19,26 @@ package com.github.raymanrt.orientqb.query.projection;
 import com.github.raymanrt.orientqb.query.Projection;
 import com.github.raymanrt.orientqb.util.Token;
 
+import static com.github.raymanrt.orientqb.util.Joiner.j;
+
 public class AtomicProjection extends Projection {
     private final String field;
 
     public AtomicProjection(String field) {
         super();
         if (Token.tokens().contains(field.toUpperCase())){
-            this.field = "`" + field + "`";
+            this.field = j.join("`", field, "`");
         } else {
             this.field = field;
         }
     }
 
     public String toString() {
-        String string = field;
-        if(alias.isPresent())
-            string += " as " + alias.get();
-        return string;
+        StringBuilder builder = new StringBuilder(field);
+        if(alias.isPresent()) {
+            builder.append(" as ").append(alias.get());
+        }
+        return builder.toString();
     }
 
     @Override

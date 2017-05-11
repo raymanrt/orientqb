@@ -18,6 +18,8 @@ package com.github.raymanrt.orientqb.query;
 
 import com.github.raymanrt.orientqb.util.Commons;
 
+import static com.github.raymanrt.orientqb.util.Joiner.j;
+
 public class Target {
 
     public static final Target EMPTY = new Target("");
@@ -28,7 +30,7 @@ public class Target {
 
     public Target(String name) {
         if (shouldBeEscaped(name)) {
-            this.name = "`" + name + "`";
+            this.name = j.join("`", name, "`");
         } else {
             this.name = name;
         }
@@ -65,34 +67,35 @@ public class Target {
     }
 
     public static Target cluster(int cluster) {
-        return new Target(CLUSTER + Integer.toString(cluster));
+        return new Target(j.join(CLUSTER, Integer.toString(cluster)));
     }
 
     public static Target cluster(String cluster) {
-        return new Target(CLUSTER + cluster);
+        return new Target(j.join(CLUSTER, cluster));
     }
 
     public static Target index(String indexName) {
-        return new Target("index:" + indexName);
+        return new Target(j.join("index:", indexName));
     }
 
     public static Target indexValues(String indexName) {
-        return new Target("indexvalues:" + indexName);
+        return new Target(j.join("indexvalues:", indexName));
     }
 
     public static Target indexValuesAsc(String indexName) {
-        return new Target("indexvaluesasc:" + indexName);
+        return new Target(j.join("indexvaluesasc:", indexName));
     }
 
     public static Target indexValuesDesc(String indexName) {
-        return new Target("indexvaluesdesc:" + indexName);
+        return new Target(j.join("indexvaluesdesc:", indexName));
     }
 
     public static Target nested(Query query) {
-        return new Target("(" + query.toString() + ")");
+        return new Target(j.join("(", query.toString(), ")"));
     }
 
     public String toString() {
         return this.name;
     }
+
 }

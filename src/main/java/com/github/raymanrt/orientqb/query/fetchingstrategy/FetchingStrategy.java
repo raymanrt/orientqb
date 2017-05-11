@@ -54,12 +54,16 @@ public class FetchingStrategy {
         return new CompositeFetchingStrategy(strategies);
     }
 
+    @Override
     public String toString() {
-        String str = fieldPath.toString() + ":" + Integer.toString(depthLevel);
+        StringBuilder builder = new StringBuilder();
         if (level != null) {
-            str = level.toString() + str;
+            builder.append(level);
         }
-        return str;
+        builder.append(fieldPath.toString())
+                .append(":")
+                .append(depthLevel);
+        return builder.toString();
     }
 
 }

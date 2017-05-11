@@ -68,15 +68,22 @@ public class Delete extends AbstractQuery {
 
 
     public String toString() {
-        String query = DELETE + getType() + " " + getTarget() + " ";
+        String query = new StringBuilder(DELETE)
+                .append(" ")
+                .append(getType())
+                .append(" ")
+                .append(getTarget())
+                .append(" ")
 
-        query += generateLock();
-        query += generateReturning();
+                .append(generateLock())
+                .append(generateReturning())
 
-        query += joinWhere();
-        query += generateLimit();
+                .append(joinWhere())
+                .append(generateLimit())
 
-        query += generateTimeout();
+                .append(generateTimeout())
+
+                .toString();
 
         return Commons.clean(query);
     }
@@ -85,12 +92,20 @@ public class Delete extends AbstractQuery {
         if(type.equals(DeleteType.NONE)) {
             return "";
         }
-        return " " + type.toString() + " ";
+        return new StringBuilder(" ")
+                .append(type.toString())
+                .append(" ")
+                .toString();
     }
 
     private String generateReturning() {
         if(returning.isPresent())
-            return " " + RETURN + " " + returning.get().toString() + " ";
+            return new StringBuilder(" ")
+                    .append(RETURN)
+                    .append(" ")
+                    .append(returning.get())
+                    .append(" ")
+                    .toString();
         return  "";
     }
 

@@ -16,7 +16,7 @@
 
 package com.github.raymanrt.orientqb.query.fetchingstrategy;
 
-import com.github.raymanrt.orientqb.util.Joiner;
+import static com.github.raymanrt.orientqb.util.Joiner.oneSpaceJoiner;
 
 /**
  * Created by rayman on 25/05/16.
@@ -32,6 +32,6 @@ public class CompositeFetchingStrategy extends FetchingStrategy {
 
     @Override
     public String toString() {
-        return Joiner.oneSpaceJoiner.join(strategies);
+        return oneSpaceJoiner.join(strategies);
     }
 }

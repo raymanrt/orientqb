@@ -35,6 +35,7 @@ import static com.github.raymanrt.orientqb.util.Commons.arrayToString;
 import static com.github.raymanrt.orientqb.util.Commons.cast;
 import static com.github.raymanrt.orientqb.util.Commons.singleQuote;
 import static com.github.raymanrt.orientqb.util.Commons.singleQuoteFunction;
+import static com.github.raymanrt.orientqb.util.Joiner.j;
 import static com.github.raymanrt.orientqb.util.Joiner.listJoiner;
 import static com.github.raymanrt.orientqb.util.Joiner.oneCommaJoiner;
 import static com.google.common.collect.Lists.newArrayList;
@@ -328,7 +329,7 @@ public abstract class Projection implements Assignable {
 	}
 
 	public Projection toJson(FetchingStrategy strategy, JsonFormat ... formats) {
-		String str = "fetchPlan:" + strategy.toString();
+		String str = j.join("fetchPlan:", strategy.toString());
 
 		if(formats.length > 0) {
 			str = oneCommaJoiner.join(str, oneCommaJoiner.join(formats));

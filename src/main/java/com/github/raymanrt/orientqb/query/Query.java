@@ -19,7 +19,6 @@ package com.github.raymanrt.orientqb.query;
 import com.github.raymanrt.orientqb.query.core.AbstractQuery;
 import com.github.raymanrt.orientqb.query.fetchingstrategy.FetchingStrategy;
 import com.github.raymanrt.orientqb.util.Commons;
-import com.github.raymanrt.orientqb.util.Joiner;
 import com.google.common.base.Optional;
 
 import java.util.ArrayList;
@@ -30,6 +29,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import static com.github.raymanrt.orientqb.query.Projection.projection;
+import static com.github.raymanrt.orientqb.util.Joiner.j;
+import static com.github.raymanrt.orientqb.util.Joiner.listJoiner;
+import static com.github.raymanrt.orientqb.util.Joiner.oneSpaceJoiner;
 import static com.github.raymanrt.orientqb.util.Token.FETCHPLAN;
 import static com.github.raymanrt.orientqb.util.Token.FROM;
 import static com.github.raymanrt.orientqb.util.Token.GROUP_BY;
@@ -167,7 +169,7 @@ public class Query extends AbstractQuery implements Assignable {
 	}
 
 	public Query let(String variable, Assignable assignment) {
-		letMap.put("$" + variable, assignment);
+		letMap.put(j.join("$", variable), assignment);
 		return this;
 	}
 
@@ -213,32 +215,32 @@ public class Query extends AbstractQuery implements Assignable {
 	}
 
 	public String toString() {
-		String base = SELECT + " %s ";
+		StringBuilder baseBuilder = new StringBuilder(SELECT).append(" %s ");
 
 		if(!getTarget().equals(Target.EMPTY)) {
-			base +=  " " + FROM + " %s ";
+			baseBuilder.append(" ").append(FROM).append(" %s ");
 		}
 
 		String joinedProjections = joinProjections();
-		String query = format(base, joinedProjections, getTarget());
+		StringBuilder query = new StringBuilder(format(baseBuilder.toString(), joinedProjections, getTarget()))
 
-		query += joinLet();
-		query += joinWhere();
-		query += generateGroupBy();
-		query += joinOrderBy();
-		query += generateSkip();
-		query += generateLimit();
+			.append(joinLet())
+			.append(joinWhere())
+			.append(generateGroupBy())
+			.append(joinOrderBy())
+			.append(generateSkip())
+			.append(generateLimit())
 
-		query += generateFetchPlan();
-		query += generateTimeout();
-		query += generateLock();
-		query += generateParallel();
+			.append(generateFetchPlan())
+			.append(generateTimeout())
+			.append(generateLock())
+			.append(generateParallel());
 
-		return Commons.clean(query);
+		return Commons.clean(query.toString());
 	}
 
 	private String joinProjections() {
-		return Joiner.listJoiner.join(projections);
+		return listJoiner.join(projections);
 	}
 
 	private String joinLet() {
@@ -248,20 +250,23 @@ public class Query extends AbstractQuery implements Assignable {
 			for(Entry<String, Assignable> letClause : letMap.entrySet()) {
 				Assignable assignable = letClause.getValue();
 				String assignment = assignable.getAssignment();
-				if(assignment.toUpperCase().startsWith(SELECT))
-					assignment = "( " + assignment + " )";
+				if(assignment.toUpperCase().startsWith(SELECT)) {
+					assignment = j.join("( ", assignment, " ", ")");
+				}
 
-				letAssignments.add(String.format("%s = %s", letClause.getKey(), assignment));
+				letAssignments.add(format("%s = %s", letClause.getKey(), assignment));
 			}
 
-			return LET + " " + Joiner.listJoiner.join(letAssignments) + " ";
+			return j.join(LET, " ",
+					listJoiner.join(letAssignments), " ");
 		}
 		return "";
 	}
 
 	private String generateGroupBy() {
 		if(groupBy.isPresent()) {
-			return " " + GROUP_BY + " " + groupBy.get().getAssignment() + " ";
+			return j.join(" ", GROUP_BY,
+					" ", groupBy.get().getAssignment(), " ");
 		}
 		return "";
 	}
@@ -270,30 +275,30 @@ public class Query extends AbstractQuery implements Assignable {
 		if(orderBy.isEmpty()) {
 			return "";
 		}
-		String flattenOrderBy = Joiner.listJoiner.join(orderBy);
-		return " " + ORDER_BY + " " + flattenOrderBy + " ";
+		String flattenOrderBy = listJoiner.join(orderBy);
+		return j.join(" ", ORDER_BY, " ", flattenOrderBy, " ");
 	}
 
 	private String generateSkip() {
 
-		String skipPart = "";
+		StringBuilder skipPart = new StringBuilder();
 		if(Commons.validVariable(skipVariable)) {
-			skipPart = " " + SKIP + " " + skipVariable;
+			skipPart.append(" ").append(SKIP).append(" ").append(skipVariable);
 		}
 		if(skipValue > 0) {
-			skipPart = " " + SKIP + " " + Integer.toString(skipValue);
+			skipPart = new StringBuilder()
+					.append(" ").append(SKIP).append(" ")
+					.append(Integer.toString(skipValue));
 		}
-		if(!skipPart.isEmpty())
-			return skipPart;
-		return "";
+		return skipPart.toString();
 	}
 
 	private String generateFetchPlan() {
 		if(fetchPlan.isEmpty()) {
 			return "";
 		}
-		String fetchPlanString = Joiner.oneSpaceJoiner.join(fetchPlan);
-		return " " + FETCHPLAN + " " + fetchPlanString + " ";
+		String fetchPlanString = oneSpaceJoiner.join(fetchPlan);
+		return j.join(" ", FETCHPLAN, " ", fetchPlanString, " ");
 	}
 
 	@Override

@@ -18,12 +18,14 @@ package com.github.raymanrt.orientqb.query;
 
 import com.github.raymanrt.orientqb.query.projection.AtomicProjection;
 
+import static com.github.raymanrt.orientqb.util.Joiner.j;
+
 public class Variable {
 
     private Variable() {};
 
     public static Projection variable(String name) {
-        return new AtomicProjection("$" + name);
+        return new AtomicProjection(j.join("$", name));
     }
 
     public static Projection thisRecord() {

@@ -16,6 +16,8 @@
 
 package com.github.raymanrt.orientqb.query;
 
+import static com.github.raymanrt.orientqb.util.Joiner.oneSpaceJoiner;
+
 public class Ordering {
     private final Projection projection;
     private final Order order;
@@ -31,7 +33,7 @@ public class Ordering {
     }
 
     public String toString() {
-        return projection.toString() + " " + order.toString();
+        return oneSpaceJoiner.join(projection.toString(), order);
     }
 
     public Projection getProjection() {

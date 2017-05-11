@@ -30,10 +30,11 @@ public class CompositeProjection extends Projection {
     }
 
     public String toString() {
-        String string = getAssignment();
-        if(alias.isPresent())
-            string += " as " + alias.get();
-        return string;
+        StringBuilder builder = new StringBuilder(getAssignment());
+        if(alias.isPresent()) {
+            builder.append(" as ").append(alias.get());
+        }
+        return builder.toString();
     }
 
     @Override

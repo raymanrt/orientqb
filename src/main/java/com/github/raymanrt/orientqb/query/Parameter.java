@@ -16,6 +16,8 @@
 
 package com.github.raymanrt.orientqb.query;
 
+import static com.github.raymanrt.orientqb.util.Joiner.j;
+
 public class Parameter extends Projection {
 
     private final String name;
@@ -27,7 +29,7 @@ public class Parameter extends Projection {
     public static final Parameter PARAMETER = new Parameter("?");
 
     public static Parameter parameter(String name) {
-        return new Parameter(":" + name);
+        return new Parameter(j.join(":", name));
     }
 
     public String toString() {
