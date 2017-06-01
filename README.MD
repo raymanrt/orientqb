@@ -322,3 +322,10 @@ There are a bunch of features which are not considered as a priority by now, but
 * pretty print
 * query validation (wrt to the schema? declaring field types during query building?)
 * orientdb versions (alignment of *orientqb* to orientdb versions)
+
+Materian
+--------
+
+[![security status](https://www.meterian.com/badge/gh/raymanrt/orientqb/security)](https://www.meterian.com/report/gh/raymanrt/orientqb)
+
+[![stability status](https://www.meterian.com/badge/gh/raymanrt/orientqb/stability)](https://www.meterian.com/report/gh/raymanrt/orientqb)
