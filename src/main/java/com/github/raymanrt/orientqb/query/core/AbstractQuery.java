@@ -37,7 +37,7 @@ import static com.google.common.collect.Sets.newLinkedHashSet;
 /**
  * Created by rayman on 28/04/16.
  */
-public abstract class AbstractQuery {
+public abstract class AbstractQuery implements Cloneable {
 
     private Target target = Target.DEFAULT;
 
@@ -189,5 +189,16 @@ public abstract class AbstractQuery {
                     .append(" ");
         }
         return  timeout.toString();
+    }
+    
+    @Override
+    public AbstractQuery clone() {
+    	try {
+			AbstractQuery clone = (AbstractQuery)super.clone();
+			clone.clauses = newLinkedHashSet(clauses);
+			return clone;
+		} catch (CloneNotSupportedException e) {
+			throw new IllegalStateException("For unknown reasons AbstractQuery is not clonable. Should never happen.", e);
+		}
     }
 }

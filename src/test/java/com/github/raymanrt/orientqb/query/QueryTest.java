@@ -275,5 +275,21 @@ public class QueryTest {
 
 		assertEquals("SELECT field1 FROM V ORDER BY field1 DESC", q.toString());
 	}
+	
+	@Test
+	public void cloneQueryTest() throws CloneNotSupportedException {
+		Query q1 = new Query();
+		q1.select("name");
+		q1.from("Class");
+		assertEquals("SELECT name FROM Class", q1.toString());
+		Query q2 = q1.clone();
+		q2.where(Clause.clause("name", Operator.EQ, "name"));
+		assertEquals("SELECT name FROM Class", q1.toString());
+		assertEquals("SELECT name FROM Class WHERE name = 'name'", q2.toString());
+		Query q3 = q1.clone();
+		q3.select("title");
+		assertEquals("SELECT name FROM Class", q1.toString());
+		assertEquals("SELECT name, title FROM Class", q3.toString());
+	}
 
 }

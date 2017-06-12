@@ -17,6 +17,7 @@
 package com.github.raymanrt.orientqb.delete;
 
 import com.github.raymanrt.orientqb.query.LockingStrategy;
+
 import org.junit.Test;
 
 import static com.github.raymanrt.orientqb.query.Projection.projection;
@@ -128,5 +129,16 @@ public class DeleteTest {
         assertEquals("DELETE Profile WHERE surname.toLowerCase() = 'unknown' TIMEOUT 5", delete.toString());
 
     }
+    
+    @Test
+	public void cloneDeleteTest() throws CloneNotSupportedException {
+    	Delete d1 = new Delete();
+		d1.from("Class");
+		assertEquals("DELETE Class", d1.toString());
+		Delete q2 = d1.clone();
+		q2.where(projection("name").eq("name"));
+		assertEquals("DELETE Class", d1.toString());
+		assertEquals("DELETE Class WHERE name = 'name'", q2.toString());
+	}
 
 }
