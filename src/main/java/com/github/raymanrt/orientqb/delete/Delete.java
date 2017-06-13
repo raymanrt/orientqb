@@ -169,4 +169,10 @@ public class Delete extends AbstractQuery {
         type = DeleteType.EDGE;
         return this;
     }
+    
+    @Override
+    public Delete clone(){
+    	Delete clone = (Delete) super.clone();
+    	return clone;
+    }
 }

@@ -305,4 +305,14 @@ public class Query extends AbstractQuery implements Assignable {
 	public String getAssignment() {
 		return toString();
 	}
+	
+	@Override
+	public Query clone() {
+		Query clone = (Query) super.clone();
+		clone.projections = newLinkedHashSet(projections);
+		clone.letMap = newLinkedHashMap(letMap);
+		clone.orderBy = newLinkedHashSet(orderBy);
+		clone.fetchPlan = newLinkedHashSet(fetchPlan);
+		return clone;
+	}
 }
