@@ -26,5 +26,6 @@ public class Joiner {
     public final static com.google.common.base.Joiner oneSpaceJoiner = com.google.common.base.Joiner.on(" ");
     public final static com.google.common.base.Joiner andJoiner = com.google.common.base.Joiner.on(" " + Token.AND + " ");
     public final static com.google.common.base.Joiner orJoiner = com.google.common.base.Joiner.on(" " + Token.OR + " ");
+    public final static com.google.common.base.Joiner quoteJoiner = com.google.common.base.Joiner.on("'");
 
 }

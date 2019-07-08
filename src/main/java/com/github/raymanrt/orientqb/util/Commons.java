@@ -93,7 +93,15 @@ public class Commons {
     }
 
     public static String clean(String query) {
-        return Patterns.manyWhiteSpaces.matcher(query).replaceAll(" ").trim();
+        String[] tokens = query.split("'");
+
+        for(int i = 0; i < tokens.length; i ++) {
+            if(i % 2 == 0) {
+                tokens[i] = Patterns.manyWhiteSpaces.matcher(tokens[i]).replaceAll(" ");
+            }
+        }
+
+        return Joiner.quoteJoiner.join(tokens).trim();
     }
 
     public static boolean validVariable(String variable) {

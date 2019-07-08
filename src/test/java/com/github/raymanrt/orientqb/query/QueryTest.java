@@ -292,4 +292,11 @@ public class QueryTest {
 		assertEquals("SELECT name, title FROM Class", q3.toString());
 	}
 
+	@Test
+	public void testWhitespaceInValues() {
+		assertEquals("SELECT WHERE column1 = 'Value  with   many     white space'",
+				new Query().fromEmpty().where(Projection.projection("column1").eq("Value  with   many     white space"))
+						.toString());
+	}
+
 }
